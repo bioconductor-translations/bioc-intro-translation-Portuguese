@@ -1,0 +1,1008 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file id="183" original="/main/episodes/60-next-steps.Rmd" source-language="en" target-language="pt" datatype="plaintext" project-id="11" tool-id="crowdin">
+    <header>
+      <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
+    </header>
+    <body>
+      <trans-unit id="93912">
+        <source>---
+source: Rmd
+title: Next steps
+teaching: 45
+exercises: 45
+---
+
+```{r, include=FALSE}
+```
+
+::::::::::::::::::::::::::::::::::::::: objectives
+
+- Introduce the Bioconductor project.</source>
+        <target state="translated">---
+source: Rmd
+title: Próximas etapas
+teaching: 45
+exercises: 45
+---
+
+```{r, include=FALSE}
+```
+
+::::::::::::::::::::::::::::::::::::: objetivos
+
+- Introduzir o projeto do Biocondutor.</target>
+      </trans-unit>
+      <trans-unit id="29385">
+        <source>- Introduce the notion of data containers.</source>
+        <target state="translated">- Introduzir o conceito de contêineres de dados.</target>
+      </trans-unit>
+      <trans-unit id="93914">
+        <source>- Give an overview of the `SummarizedExperiment`, extensively used in
+  omics analyses.</source>
+        <target state="translated">- Apresentar uma visão geral do `SummarizedExperiment`, o qual é amplamente utilizado em análises ômicas.</target>
+      </trans-unit>
+      <trans-unit id="93916">
+        <source>::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::: questions
+
+- What is a `SummarizedExperiment`?</source>
+        <target state="translated">::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::: perguntas
+
+- O que é um `SummarizedExperiment`?</target>
+      </trans-unit>
+      <trans-unit id="29397">
+        <source>- What is Bioconductor?</source>
+        <target state="translated">- O que é o Bioconductor?</target>
+      </trans-unit>
+      <trans-unit id="93918">
+        <source>::::::::::::::::::::::::::::::::::::::::::::::::::
+
+## Next steps
+
+```{r, echo=FALSE, message=FALSE}
+library(&quot;tidyverse&quot;)
+```
+
+Data in bioinformatics is often complex.</source>
+        <target state="translated">::::::::::::::::::::::::::::::::::::::::::::::::::
+
+## Próximos passos
+
+```{r, echo=FALSE, message=FALSE}
+library(&quot;tidyverse&quot;)
+```
+
+Os dados em bioinformática são muitas vezes complexos.</target>
+      </trans-unit>
+      <trans-unit id="93920">
+        <source>To deal with this,
+developers define specialised data containers (termed classes) that
+match the properties of the data they need to handle.</source>
+        <target state="translated">Para lidar com este problema, os programadores de
+definem contentores de dados especializados (denominados de classes) que correspondem às propriedades dos dados que necessitam ser manipulados.</target>
+      </trans-unit>
+      <trans-unit id="93922">
+        <source>This aspect is central to the **Bioconductor**[^Bioconductor] project
+which uses the same **core data infrastructure** across packages.</source>
+        <target state="translated">Este aspeto é fundamental para o projeto do **Bioconductor**[^Bioconductor] que utiliza a mesma **infraestrutura de dados central** em todos os pacotes.</target>
+      </trans-unit>
+      <trans-unit id="93924">
+        <source>This
+certainly contributed to Bioconductor's success.</source>
+        <target state="translated">Esta estrutura contribuiu certamente para o sucesso do Bioconductor.</target>
+      </trans-unit>
+      <trans-unit id="93926">
+        <source>Bioconductor package
+developers are advised to make use of existing infrastructure to
+provide coherence, interoperability, and stability to the project as a
+whole.</source>
+        <target state="translated">Os programadores de pacotes do Bioconductor
+são aconselhados a utilizar a infraestrutura existente para
+proporcionar coerência, interoperabilidade e estabilidade ao projeto como um todo.</target>
+      </trans-unit>
+      <trans-unit id="93928">
+        <source>[^Bioconductor]: The [Bioconductor](https://www.bioconductor.org) was
+    initiated by Robert Gentleman, one of the two creators of the R
+    language.</source>
+        <target state="translated">[^Bioconductor]: O [Bioconductor](https://www.bioconductor.org) foi iniciado por Robert Gentleman, um dos dois criadores da linguagem R.</target>
+      </trans-unit>
+      <trans-unit id="93930">
+        <source>Bioconductor provides tools dedicated to omics data
+    analysis.</source>
+        <target state="translated">O Bioconductor fornece ferramentas dedicadas a análise de dados ômicos.</target>
+      </trans-unit>
+      <trans-unit id="93932">
+        <source>Bioconductor uses the R statistical programming language
+    and is open source and open development.</source>
+        <target state="translated">O Bioconductor utiliza a linguagem de programação estatística R e tem o código e o desenvolvimento aberto.</target>
+      </trans-unit>
+      <trans-unit id="93934">
+        <source>To illustrate such an omics data container, we'll present the
+`SummarizedExperiment` class.</source>
+        <target state="translated">Para ilustrar um contêiner de dados ômicos, apresentaremos a classe
+`SummarizedExperiment`.</target>
+      </trans-unit>
+      <trans-unit id="93936">
+        <source>## SummarizedExperiment
+
+The figure below represents the anatomy of the SummarizedExperiment class.</source>
+        <target state="translated">## SummarizedExperiment
+
+A figura abaixo representa a anatomia da classe SummarizedExperiment.</target>
+      </trans-unit>
+      <trans-unit id="93938">
+        <source>```{r SE, echo=FALSE, out.width=&quot;80%&quot;}
+knitr::include_graphics(&quot;https://uclouvain-cbio.github.io/WSBIM1322/figs/SE.svg&quot;)
+```
+
+Objects of the class SummarizedExperiment contain :
+
+- **One (or more) assay(s)** containing the quantitative omics data
+  (expression data), stored as a matrix-like object.</source>
+        <target state="translated">```{r SE, echo=FALSE, out.width=&quot;80%&quot;}
+knitr::include_graphics(&quot;https://uclouvain-cbio.github.io/WSBIM1322/figs/SE.svg&quot;)
+```
+
+Os objectos da classe SummarizedExperiment contêm :
+
+- **Um (ou mais) ensaio(s) ** contendo os dados ômicos quantitativos
+  (por exemplo os dados de expressão gênica), armazenados como um objeto do tipo matriz.</target>
+      </trans-unit>
+      <trans-unit id="93940">
+        <source>Features (genes,
+  transcripts, proteins, ...) are defined along the rows, and samples
+  along the columns.</source>
+        <target state="translated">Variáveis (como genes, transcritos gênicos, proteínas etc.) são definidas ao longo das linhas e amostras ao longo das colunas.</target>
+      </trans-unit>
+      <trans-unit id="93942">
+        <source>- A **sample metadata** slot containing sample co-variates, stored as a
+  data frame.</source>
+        <target state="translated">- Um compartimento para **sample metadata** contém as co-variáveis da amostra, armazenada como `data. frame`.</target>
+      </trans-unit>
+      <trans-unit id="93944">
+        <source>Rows from this table represent samples (rows match exactly the
+  columns of the expression data).</source>
+        <target state="translated">As linhas desta tabela representam amostras (as linhas correspondem exatamente às colunas
+  dos dados de expressão gênica).</target>
+      </trans-unit>
+      <trans-unit id="93946">
+        <source>- A **feature metadata** slot containing feature co-variates, stored as
+  a data frame.</source>
+        <target state="translated">- Um compartimento para **sample metadata** contém as co-variáveis da amostra, armazenada como `data.frame`.</target>
+      </trans-unit>
+      <trans-unit id="93948">
+        <source>The rows of this data frame match exactly the rows of the
+  expression data.</source>
+        <target state="translated">As linhas desta estrutura de dados correspondem exatamente às linhas dos dados da expressão.</target>
+      </trans-unit>
+      <trans-unit id="93950">
+        <source>The coordinated nature of the `SummarizedExperiment` guarantees that
+during data manipulation, the dimensions of the different slots will
+always match (i.e the columns in the expression data and then rows in
+the sample metadata, as well as the rows in the expression data and
+feature metadata) during data manipulation.</source>
+        <target state="translated">A natureza coordenada do `SummarizedExperiment` garante que
+durante a manipulação dos dados, as dimensões dos diferentes compartimentos serão
+sempre correspondentes (por exemplo as colunas nos dados de expressão e, em seguida, as linhas nos metadados da amostra, bem como as linhas nos dados de expressão e
+metadados das variáveis) durante a manipulação dos dados.</target>
+      </trans-unit>
+      <trans-unit id="93952">
+        <source>For example, if we had to
+exclude one sample from the assay, it would be automatically removed
+from the sample metadata in the same operation.</source>
+        <target state="translated">Por exemplo, se tivéssemos que
+excluir uma amostra do ensaio, esta seria automaticamente removida
+dos metadados da amostra na mesma operação.</target>
+      </trans-unit>
+      <trans-unit id="93954">
+        <source>The metadata slots can grow additional co-variates
+(columns) without affecting the other structures.</source>
+        <target state="translated">Os compartimentos de metadados podem aumentar as co-variáveis adicionais
+(colunas) sem afetar as outras estruturas.</target>
+      </trans-unit>
+      <trans-unit id="93956">
+        <source>### Creating a SummarizedExperiment
+
+In order to create a `SummarizedExperiment`, we will create the
+individual components, i.e the count matrix, the sample and gene
+metadata from csv files.</source>
+        <target state="translated">### Criando um SummarizedExperiment
+
+Para criar um `SummarizedExperiment`, vamos criar os
+componentes individuais, por exemplo a matriz de contagem, a amostra e os
+metadados dos genes de arquivos csv.</target>
+      </trans-unit>
+      <trans-unit id="93958">
+        <source>These are typically how RNA-Seq data are
+provided (after raw data have been processed).</source>
+        <target state="translated">Normalmente, é assim que os dados de RNA-Seq são
+fornecidos (depois dos dados brutos terem sido processados).</target>
+      </trans-unit>
+      <trans-unit id="93960">
+        <source>```{r, echo=FALSE, message=FALSE}
+rna &lt;- read_csv(&quot;data/rnaseq.csv&quot;)
+
+## count matrix
+counts &lt;- rna %&gt;%
+  select(gene, sample, expression) %&gt;%
+  pivot_wider(names_from = sample,
+              values_from = expression)
+
+## convert to matrix and set row names
+count_matrix &lt;- counts %&gt;% select(-gene) %&gt;% as.matrix()
+rownames(count_matrix) &lt;- counts$gene
+
+## sample annotation
+sample_metadata &lt;- rna %&gt;%
+  select(sample, organism, age, sex, infection, strain, time, tissue, mouse)
+
+## remove redundancy
+sample_metadata &lt;- unique(sample_metadata)
+
+## gene annotation
+gene_metadata &lt;- rna %&gt;%
+  select(gene, ENTREZID, product, ensembl_gene_id, external_synonym,
+         chromosome_name, gene_biotype, phenotype_description,
+         hsapiens_homolog_associated_gene_name)
+
+# remove redundancy
+gene_metadata &lt;- unique(gene_metadata)
+
+## write to csv
+write.csv(count_matrix, file = &quot;data/count_matrix.csv&quot;)
+write.csv(gene_metadata, file = &quot;data/gene_metadata.csv&quot;, row.names = FALSE)
+write.csv(sample_metadata, file = &quot;data/sample_metadata.csv&quot;, row.names = FALSE)
+```
+
+- **An expression matrix**: we load the count matrix, specifying that
+  the first columns contains row/gene names, and convert the
+  `data.frame` to a `matrix`.</source>
+        <target state="translated">```{r, echo=FALSE, message=FALSE}
+rna &lt;- read_csv(&quot;data/rnaseq.csv&quot;)
+
+## matriz de contagem
+counts &lt;- rna %&gt;%
+  select(gene, sample, expression) %&gt;%
+  pivot_wider(names_from = sample,
+              values_from = expression)
+
+## converter para matriz e definir nomes de linhas
+count_matrix &lt;- counts %&gt;% select(-gene) %&gt;% as.matrix()
+rownames(count_matrix) &lt;- counts$gene
+
+## anotação de amostras
+sample_metadata &lt;- rna %&gt;%
+  select(sample, organism, age, sex, infection, strain, time, tissue, mouse)
+
+## remover redundância
+sample_metadata &lt;- unique(sample_metadata)
+
+## anotação de genes
+gene_metadata &lt;- rna %&gt;%
+  select(gene, ENTREZID, product, ensembl_gene_id, external_synonym,
+         chromosome_name, gene_biotype, phenotype_description,
+         hsapiens_homolog_associated_gene_name)
+
+# remover redundância
+gene_metadata &lt;- unique(gene_metadata)
+
+## salvar aquivo para csv
+write.csv(count_matrix, file = &quot;data/count_matrix.csv&quot;)
+write.csv(gene_metadata, file = &quot;data/gene_metadata.csv&quot;, row.names = FALSE)
+write.csv(sample_metadata, file = &quot;data/sample_metadata.csv&quot;, row.names = FALSE)
+```
+
+- **Uma matriz de expressão**: carregamos a matriz de contagem, especificando que
+  as primeiras colunas contêm nomes das linhas/genes, e convertemos o
+  `data.frame` para uma `matriz`.</target>
+      </trans-unit>
+      <trans-unit id="93962">
+        <source>You can download it
+  [here](https://carpentries-incubator.github.io/bioc-intro/data/count_matrix.csv).</source>
+        <target state="translated">Você pode baixá-lo [aqui](https://carpentries-incubator.github.io/bioc-intro/data/count_matrix.csv).</target>
+      </trans-unit>
+      <trans-unit id="93964">
+        <source>```{r}
+count_matrix &lt;- read.csv(&quot;data/count_matrix.csv&quot;,
+                         row.names = 1) %&gt;%
+    as.matrix()
+
+count_matrix[1:5, ]
+dim(count_matrix)
+```
+
+- **A table describing the samples**, available
+  [here](https://carpentries-incubator.github.io/bioc-intro/data/sample_metadata.csv).</source>
+        <target state="translated">```{r}
+count_matrix &lt;- read.csv(&quot;data/count_matrix.csv&quot;,
+                         row.names = 1) %&gt;%
+    as.matrix()
+
+count_matrix[1:5, ]
+dim(count_matrix)
+```
+
+- **Uma tabela que descreve as amostras**, disponível
+  [aqui](https://carpentries-incubator.github.io/bioc-intro/data/sample_metadata.csv).</target>
+      </trans-unit>
+      <trans-unit id="93966">
+        <source>```{r}
+sample_metadata &lt;- read.csv(&quot;data/sample_metadata.csv&quot;)
+sample_metadata
+dim(sample_metadata)
+```
+
+- **A table describing the genes**, available
+  [here](https://carpentries-incubator.github.io/bioc-intro/data/gene_metadata.csv).</source>
+        <target state="translated">```{r}
+sample_metadata &lt;- read.csv(&quot;data/sample_metadata.csv&quot;)
+sample_metadata
+dim(sample_metadata)
+```
+
+- **Uma tabela que descreve os genes**, disponível
+  [here](https://carpentries-incubator.github.io/bioc-intro/data/gene_metadata.csv).</target>
+      </trans-unit>
+      <trans-unit id="93968">
+        <source>```{r}
+gene_metadata &lt;- read.csv(&quot;data/gene_metadata.csv&quot;)
+gene_metadata[1:10, 1:4]
+dim(gene_metadata)
+```
+
+We will create a `SummarizedExperiment` from these tables:
+
+- The count matrix that will be used as the **`assay`**
+
+- The table describing the samples will be used as the **sample
+  metadata** slot
+
+- The table describing the genes will be used as the **features
+  metadata** slot
+
+To do this we can put the different parts together using the
+`SummarizedExperiment` constructor:
+
+```{r, message=FALSE, warning=FALSE}
+## BiocManager::install(&quot;SummarizedExperiment&quot;)
+library(&quot;SummarizedExperiment&quot;)
+```
+
+First, we make sure that the samples are in the same order in the
+count matrix and the sample annotation, and the same for the genes in
+the count matrix and the gene annotation.</source>
+        <target state="translated">```{r}
+gene_metadata &lt;- read.csv(&quot;data/gene_metadata.csv&quot;)
+gene_metadata[1:10, 1:4]
+dim(gene_metadata)
+```
+
+Vamos criar um `SummarizedExperiment` a partir destas tabelas:
+
+- A matriz de contagem que será utilizada como **`ensaio`**
+
+- A tabela que descreve as amostras será utilizada como compartimento para **sample
+  metadata**
+
+- A tabela que descreve os genes será utilizada como compartimento para **features (variáveis)
+  metadata**
+
+Para o fazer, podemos juntar as diferentes partes utilizando o construtor
+`SummarizedExperiment`:
+
+```{r, message=FALSE, warning=FALSE}
+## BiocManager::install(&quot;SummarizedExperiment&quot;)
+library(&quot;SummarizedExperiment&quot;)
+```
+
+Primeiro, certificamo-nos de que as amostras estão na mesma ordem na matriz de contagem
+e na anotação da amostra, e o mesmo para os genes na matriz de contagem e na anotação dos genes.</target>
+      </trans-unit>
+      <trans-unit id="93970">
+        <source>```{r}
+stopifnot(rownames(count_matrix) == gene_metadata$gene)
+stopifnot(colnames(count_matrix) == sample_metadata$sample)
+```
+
+```{r}
+se &lt;- SummarizedExperiment(assays = list(counts = count_matrix),
+                           colData = sample_metadata,
+                           rowData = gene_metadata)
+se
+```
+
+### Saving data
+
+Exporting data to a spreadsheet, as we did in a previous episode, has
+several limitations, such as those described in the first chapter
+(possible inconsistencies with `,` and `.` for decimal separators and
+lack of variable type definitions).</source>
+        <target state="translated">```{r}
+stopifnot(rownames(count_matrix) == gene_metadata$gene)
+stopifnot(colnames(count_matrix) == sample_metadata$sample)
+```
+
+```{r}
+se &lt;- SummarizedExperiment(assays = list(counts = count_matrix),
+                           colData = sample_metadata,
+                           rowData = gene_metadata)
+se
+```
+
+### Guardar dados
+
+A exportação dos dados para uma spreadsheet, como fizemos num episódio anterior, tem
+várias limitações, como as descritas no primeiro capítulo
+(possíveis inconsistências com `,` e `.` para separadores decimais e
+falta de definições de tipos de variáveis).</target>
+      </trans-unit>
+      <trans-unit id="93972">
+        <source>Furthermore, exporting data to a
+spreadsheet is only relevant for rectangular data such as dataframes
+and matrices.</source>
+        <target state="translated">Além disso, a exportação dos dados para uma spreadsheet
+só é relevante para dados retangulares, tais como data.frames
+e matrizes.</target>
+      </trans-unit>
+      <trans-unit id="93974">
+        <source>A more general way to save data, that is specific to R and is
+guaranteed to work on any operating system, is to use the `saveRDS`
+function.</source>
+        <target state="translated">Uma forma mais geral de guardar dados, que é específica do R e é
+garantida para funcionar em qualquer sistema operativo, é utilizar a função `saveRDS`.</target>
+      </trans-unit>
+      <trans-unit id="93976">
+        <source>Saving objects like this will generate a binary
+representation on disk (using the `rds` file extension here), which
+can be loaded back into R using the `readRDS` function.</source>
+        <target state="translated">Guardar objetos como este irá gerar uma representação binária
+no disco (usando a extensão de arquivo `rds` aqui), que
+pode ser carregada de volta para o R usando a função `readRDS`.</target>
+      </trans-unit>
+      <trans-unit id="93978">
+        <source>```{r, eval=FALSE}
+saveRDS(se, file = &quot;data_output/se.rds&quot;)
+rm(se)
+se &lt;- readRDS(&quot;data_output/se.rds&quot;)
+head(se)
+```
+
+To conclude, when it comes to saving data from R that will be loaded
+again in R, saving and loading with `saveRDS` and `readRDS` is the
+preferred approach.</source>
+        <target state="translated">```{r, eval=FALSE}
+saveRDS(se, file = &quot;data_output/se.rds&quot;)
+rm(se)
+se &lt;- readRDS(&quot;data_output/se.rds&quot;)
+head(se)
+```
+
+Para concluir, quando se trata de salvar dados do R que serão carregados novamente no R, salvar e carregar com `saveRDS` e `readRDS` é a abordagem preferida.</target>
+      </trans-unit>
+      <trans-unit id="93980">
+        <source>If tabular data need to be shared with somebody
+that is not using R, then exporting to a text-based spreadsheet is a
+good alternative.</source>
+        <target state="translated">Se os dados tabulares tiverem de ser partilhados com alguém
+que não utilize o R, então a exportação para spreadsheet baseada em texto é uma
+boa alternativa.</target>
+      </trans-unit>
+      <trans-unit id="93982">
+        <source>Using this data structure, we can access the expression matrix with
+the `assay` function:
+
+```{r}
+head(assay(se))
+dim(assay(se))
+```
+
+We can access the sample metadata using the `colData` function:
+
+```{r}
+colData(se)
+dim(colData(se))
+```
+
+We can also access the feature metadata using the `rowData` function:
+
+```{r}
+head(rowData(se))
+dim(rowData(se))
+```
+
+### Subsetting a SummarizedExperiment
+
+SummarizedExperiment can be subset just like with data frames, with
+numerics or with characters of logicals.</source>
+        <target state="translated">Utilizando esta estrutura de dados, podemos acessar a matriz de expressão com
+a função `assay`:
+
+```{r}
+head(assay(se))
+dim(assay(se))
+```
+
+Podemos acessar aos metadados da amostra utilizando a função `colData`:
+
+```{r}
+colData(se)
+dim(colData(se))
+```
+
+Também podemos aceder aos metadados da caraterística utilizando a função `rowData`:
+
+```{r}
+head(rowData(se))
+dim(rowData(se))
+```
+
+### Subconjunto de um SummarizedExperiment
+
+SummarizedExperiment pode ser subconjunto tal como os data frames, com
+números ou com caracteres lógicos.</target>
+      </trans-unit>
+      <trans-unit id="93984">
+        <source>Below, we create a new instance of class SummarizedExperiment that
+contains only the 5 first features for the 3 first samples.</source>
+        <target state="translated">Abaixo, criamos uma nova instância da classe SummarizedExperiment que contém apenas as 5 primeiras variáveis para as 3 primeiras amostras.</target>
+      </trans-unit>
+      <trans-unit id="93986">
+        <source>```{r}
+se1 &lt;- se[1:5, 1:3]
+se1
+```
+
+```{r}
+colData(se1)
+rowData(se1)
+```
+
+We can also use the `colData()` function to subset on something from
+the sample metadata or the `rowData()` to subset on something from the
+feature metadata.</source>
+        <target state="translated">```{r}
+se1 &lt;- se[1:5, 1:3]
+se1
+```
+
+```{r}
+colData(se1)
+rowData(se1)
+```
+
+Também podemos utilizar a função `colData()` para fazer um subconjunto de algo dos metadados da amostra ou a função `rowData()` para fazer um subconjunto de algo dos metadados da caraterística
+.</target>
+      </trans-unit>
+      <trans-unit id="93988">
+        <source>For example, here we keep only miRNAs and the non
+infected samples:
+
+```{r}
+se1 &lt;- se[rowData(se)$gene_biotype == &quot;miRNA&quot;,
+          colData(se)$infection == &quot;NonInfected&quot;]
+se1
+assay(se1)
+colData(se1)
+rowData(se1)
+```
+
+&lt;!--For the following exercise, you should download the SE.rda object
+(that contains the `se` object), and open the file using the 'load()'
+function.--&gt;
+
+&lt;!-- ```{r, eval = FALSE, echo = FALSE} --&gt;
+
+&lt;!-- download.file(url = &quot;https://raw.githubusercontent.com/UCLouvain-CBIO/bioinfo-training-01-intro-r/master/data/SE.rda&quot;, --&gt;
+
+&lt;!--               destfile = &quot;data/SE.rda&quot;) --&gt;
+
+&lt;!-- load(&quot;data/SE.rda&quot;) --&gt;
+
+&lt;!-- ``` --&gt;
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Challenge
+
+Extract the gene expression levels of the 3 first genes in samples
+at time 0 and at time 8.</source>
+        <target state="translated">Por exemplo, aqui mantemos apenas os miRNAs e as amostras não infectadas
+:
+
+```{r}
+se1 &lt;- se[rowData(se)$gene_biotype == &quot;miRNA&quot;,
+          colData(se)$infection == &quot;NonInfected&quot;]
+se1
+assay(se1)
+colData(se1)
+rowData(se1)
+```
+
+&lt;!--Para o exercício a seguir, você deve fazer download do objeto SE.rda
+(que contém o objeto `se`) e abrir o arquivo usando a função 'load()'
+função.--&gt;
+
+&lt;!-- ```{r, eval = FALSE, echo = FALSE} --&gt;
+
+&lt;!-- download.file(url = &quot;https://raw.githubusercontent.com/UCLouvain-CBIO/bioinfo-training-01-intro-r/master/data/SE.rda&quot;, --&gt;
+
+&lt;!--               destfile = &quot;data/SE.rda&quot;) --&gt;
+
+&lt;!-- load(&quot;data/SE.rda&quot;) --&gt;
+
+&lt;!-- ``` --&gt;
+
+::::::::::::::::::::::::::::::::::::::: challenge
+
+## Challenge
+
+Extraia os níveis de expressão genética dos 3 primeiros genes nas amostras
+no tempo 0 e no tempo 8.</target>
+      </trans-unit>
+      <trans-unit id="93990">
+        <source>:::::::::::::::  solution
+
+## Solution
+
+```{r, purl=FALSE}
+assay(se)[1:3, colData(se)$time != 4]
+
+# Equivalent to
+assay(se)[1:3, colData(se)$time == 0 | colData(se)$time == 8]
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Challenge
+
+Verify that you get the same values using the long `rna` table.</source>
+        <target state="translated">::::::::::::::: Resposta
+
+## Resposta
+
+```{r, purl=FALSE}
+assay(se)[1:3, colData(se)$time != 4]
+
+# Equivalente a
+assay(se)[1:3, colData(se)$time == 0 | colData(se)$time == 8]
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::: Desafio
+
+## Desafio
+
+Verifique se obtém os mesmos valores utilizando a tabela `rna` longa.</target>
+      </trans-unit>
+      <trans-unit id="93992">
+        <source>:::::::::::::::  solution
+
+## Solution
+
+```{r, purl=FALSE}
+rna |&gt;
+    filter(gene %in% c(&quot;Asl&quot;, &quot;Apod&quot;, &quot;Cyd2d22&quot;)) |&gt;
+    filter(time != 4) |&gt; select(expression)
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+The long table and the `SummarizedExperiment` contain the same
+information, but are simply structured differently.</source>
+        <target state="translated">::::::::::::::: Resposta
+
+## Resposta
+
+```{r, purl=FALSE}
+rna |&gt;
+    filter(gene %in% c(&quot;Asl&quot;, &quot;Apod&quot;, &quot;Cyd2d22&quot;)) |&gt;
+    filter(time != 4) |&gt; select(expression)
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+A tabela longa e o `SummarizedExperiment` contêm as mesmas informações
+, mas são simplesmente estruturados de forma diferente.</target>
+      </trans-unit>
+      <trans-unit id="93994">
+        <source>Each approach has its
+own advantages: the former is a good fit for the `tidyverse` packages,
+while the latter is the preferred structure for many bioinformatics and
+statistical processing steps.</source>
+        <target state="translated">Cada abordagem tem as suas
+próprias vantagens: a primeira adequa-se bem aos pacotes `tidyverse`,
+enquanto a segunda é a estrutura preferida para muitas etapas de processamento bioinformático e
+estatístico.</target>
+      </trans-unit>
+      <trans-unit id="93996">
+        <source>For example, a typical RNA-Seq analyses using
+the `DESeq2` package.</source>
+        <target state="translated">Por exemplo, uma análise típica de RNA-Seq utilizando
+o pacote `DESeq2`.</target>
+      </trans-unit>
+      <trans-unit id="93998">
+        <source>#### Adding variables to metadata
+
+We can also add information to the metadata.</source>
+        <target state="translated">#### Adicionar variáveis aos metadados
+
+Também podemos adicionar informações aos metadados.</target>
+      </trans-unit>
+      <trans-unit id="29897">
+        <source>Suppose that you want to add the center where the samples were collected...</source>
+        <target state="translated">Suponhamos que se pretende acrescentar o local onde as amostras foram recolhidas...</target>
+      </trans-unit>
+      <trans-unit id="94000">
+        <source>```{r}
+colData(se)$center &lt;- rep(&quot;University of Illinois&quot;, nrow(colData(se)))
+colData(se)
+```
+
+This illustrates that the metadata slots can grow indefinitely without
+affecting the other structures!</source>
+        <target state="translated">```{r}
+colData(se)$center &lt;- rep(&quot;University of Illinois&quot;, nrow(colData(se)))
+colData(se)
+```
+
+Isto ilustra que as ranhuras de metadados podem crescer indefinidamente sem
+afetar as outras estruturas!</target>
+      </trans-unit>
+      <trans-unit id="94002">
+        <source>### tidySummarizedExperiment
+
+You may be wondering, can we use tidyverse commands to interact with
+`SummarizedExperiment` objects?</source>
+        <target state="translated">### tidySummarizedExperiment
+
+Você deve estar se perguntando, podemos usar comandos tidyverse para interagir com objectos
+`SummarizedExperiment`?</target>
+      </trans-unit>
+      <trans-unit id="94004">
+        <source>The answer is yes, we can with the
+`tidySummarizedExperiment` package.</source>
+        <target state="translated">A resposta é sim, podemos fazê-lo com o pacote
+`tidySummarizedExperiment`.</target>
+      </trans-unit>
+      <trans-unit id="94006">
+        <source>Remember what our SummarizedExperiment object looks like:
+
+```{r, message=FALSE}
+se
+```
+
+Load `tidySummarizedExperiment` and then take a look at the se object
+again.</source>
+        <target state="translated">Lembre-se do aspeto do nosso objeto SummarizedExperiment:
+
+```{r, message=FALSE}
+se
+```
+
+Carregue `tidySummarizedExperiment` e depois dê uma olhada no objeto `se`
+novamente.</target>
+      </trans-unit>
+      <trans-unit id="94008">
+        <source>```{r, message=FALSE}
+#BiocManager::install(&quot;tidySummarizedExperiment&quot;)
+library(&quot;tidySummarizedExperiment&quot;)
+
+se
+```
+
+It's still a `SummarizedExperiment` object, so maintains the efficient
+structure, but now we can view it as a tibble.</source>
+        <target state="translated">```{r, message=FALSE}
+#BiocManager::install(&quot;tidySummarizedExperiment&quot;)
+library(&quot;tidySummarizedExperiment&quot;)
+
+se
+```
+
+Continua a ser um objeto `SummarizedExperiment`, por isso mantém a estrutura eficiente, mas agora podemos vê-lo como um tibble.</target>
+      </trans-unit>
+      <trans-unit id="94010">
+        <source>Note the first line of
+the output says this, it's a `SummarizedExperiment`\-`tibble`
+abstraction.</source>
+        <target state="translated">Repare que na primeira linha do output diz isto: 
+`SummarizedExperiment`\-`tibble`
+abstraction.</target>
+      </trans-unit>
+      <trans-unit id="94012">
+        <source>We can also see in the second line of the output the
+number of transcripts and samples.</source>
+        <target state="translated">Também podemos ver na segunda linha do output o
+número de transcrições e amostras.</target>
+      </trans-unit>
+      <trans-unit id="94014">
+        <source>If we want to revert to the standard `SummarizedExperiment` view, we
+can do that.</source>
+        <target state="translated">Se quisermos, podemos reverter para a visualização padrão do `SummarizedExperiment`.</target>
+      </trans-unit>
+      <trans-unit id="94016">
+        <source>```{r}
+options(&quot;restore_SummarizedExperiment_show&quot; = TRUE)
+se
+```
+
+But here we use the tibble view.</source>
+        <target state="translated">```{r}
+options(&quot;restore_SummarizedExperiment_show&quot; = TRUE)
+se
+```
+
+Mas aqui utilizamos a visualização do tibble.</target>
+      </trans-unit>
+      <trans-unit id="94018">
+        <source>```{r}
+options(&quot;restore_SummarizedExperiment_show&quot; = FALSE)
+se
+```
+
+We can now use tidyverse commands to interact with the
+`SummarizedExperiment` object.</source>
+        <target state="translated">```{r}
+options(&quot;restore_SummarizedExperiment_show&quot; = FALSE)
+se
+```
+
+Agora podemos usar comandos do tidyverse para interagir com o objeto
+`SummarizedExperiment`.</target>
+      </trans-unit>
+      <trans-unit id="94020">
+        <source>We can use `filter` to filter for rows using a condition e.g. to view
+all rows for one sample.</source>
+        <target state="translated">Podemos utilizar `filter` para filtrar as linhas utilizando uma condição, por exemplo, para visualizar
+todas as linhas de uma amostra.</target>
+      </trans-unit>
+      <trans-unit id="94022">
+        <source>```{r}
+se %&gt;% filter(.sample == &quot;GSM2545336&quot;)
+```
+
+We can use `select` to specify columns we want to view.</source>
+        <target state="translated">```{r}
+se %&gt;% filter(.sample == &quot;GSM2545336&quot;)
+```
+
+Podemos utilizar `select` para especificar as colunas que pretendemos visualizar.</target>
+      </trans-unit>
+      <trans-unit id="94024">
+        <source>```{r}
+se %&gt;% select(.sample)
+```
+
+We can use `mutate` to add metadata info.</source>
+        <target state="translated">```{r}
+se %&gt;% select(.sample)
+```
+
+Podemos utilizar `mutate` para adicionar informações dos metadados.</target>
+      </trans-unit>
+      <trans-unit id="94026">
+        <source>```{r}
+se %&gt;% mutate(center = &quot;Heidelberg University&quot;)
+```
+
+We can also combine commands with the tidyverse pipe `%&gt;%`.</source>
+        <target state="translated">```{r}
+se %&gt;%% mutate(center = &quot;Heidelberg University&quot;)
+```
+
+Também podemos combinar comandos com o pipe do tidyverse `%&gt;%`.</target>
+      </trans-unit>
+      <trans-unit id="94028">
+        <source>For
+example, we could combine `group_by` and `summarise` to get the total
+counts for each sample.</source>
+        <target state="translated">Por exemplo, poderíamos combinar `group_by` e `summarise` para obter o total de contagens para cada amostra.</target>
+      </trans-unit>
+      <trans-unit id="94030">
+        <source>```{r}
+se %&gt;%
+    group_by(.sample) %&gt;%
+    summarise(total_counts=sum(counts))
+```
+
+We can treat the tidy SummarizedExperiment object as a normal tibble
+for plotting.</source>
+        <target state="translated">```{r}
+se %&gt;%
+    group_by(.sample) %&gt;%
+    summarise(total_counts=sum(counts))
+```
+
+Podemos tratar o objeto SummarizedExperiment como um `tibble` comum para plotagem.</target>
+      </trans-unit>
+      <trans-unit id="30033">
+        <source>Here we plot the distribution of counts per sample.</source>
+        <target state="translated">Aqui traçamos a distribuição das contagens por amostra.</target>
+      </trans-unit>
+      <trans-unit id="94032">
+        <source>```{r tidySE-plot}
+se %&gt;%
+    ggplot(aes(counts + 1, group=.sample, color=infection)) +
+    geom_density() +
+    scale_x_log10() +
+    theme_bw()
+```
+
+For more information on tidySummarizedExperiment, see the package
+website
+[here](https://stemangiola.github.io/tidySummarizedExperiment/).</source>
+        <target state="translated">```{r tidySE-plot}
+se %&gt;%
+    ggplot(aes(counts + 1, group=.sample, color=infection)) +
+    geom_density() +
+    scale_x_log10() +
+    theme_bw()
+```
+
+Para mais informações sobre o tidySummarizedExperiment, consulte o website do pacote
+[here](https://stemangiola.github.io/tidySummarizedExperiment/).</target>
+      </trans-unit>
+      <trans-unit id="94034">
+        <source>**Take-home message**
+
+- `SummarizedExperiment` represents an efficient way to store and
+  handle omics data.</source>
+        <target state="translated">**Mensagem para levar para casa**
+
+- O `SummarizedExperiment` representa uma forma eficiente de armazenar e
+  tratar dados ômicos.</target>
+      </trans-unit>
+      <trans-unit id="30061">
+        <source>- They are used in many Bioconductor packages.</source>
+        <target state="translated">- São utilizados em muitos pacotes do Bioconductor.</target>
+      </trans-unit>
+      <trans-unit id="94036">
+        <source>If you follow the next training focused on RNA sequencing analysis,
+you will learn to use the Bioconductor `DESeq2` package to do some
+differential expression analyses.</source>
+        <target state="translated">Se seguir a próxima formação centrada na análise de sequências de RNA, aprenderá a utilizar o pacote Bioconductor `DESeq2` para efetuar algumas análises de expressão diferencial.</target>
+      </trans-unit>
+      <trans-unit id="94038">
+        <source>The whole analysis of the `DESeq2`
+package is handled in a `SummarizedExperiment`.</source>
+        <target state="translated">Toda a análise do pacote `DESeq2`
+é tratada num `SummarizedExperiment`.</target>
+      </trans-unit>
+      <trans-unit id="94040">
+        <source>:::::::::::::::::::::::::::::::::::::::: keypoints
+
+- Bioconductor is a project provide support and packages for the
+  comprehension of high high-throughput biology data.</source>
+        <target state="translated">:::::::::::::::::::::::::::::::::::::::: keypoints
+
+- O Bioconductor é um projeto que fornece apoio e pacotes para a
+  compreensão de dados biológicos de elevado rendimento.</target>
+      </trans-unit>
+      <trans-unit id="94042">
+        <source>- A `SummarizedExperiment` is a type of object useful to store and
+  manage high-throughput omics data.</source>
+        <target state="translated">- Um `SummarizedExperiment` é um tipo de objeto útil para armazenar e
+  gerir dados ómicos de elevado rendimento.</target>
+      </trans-unit>
+      <trans-unit id="29391">
+        <source>::::::::::::::::::::::::::::::::::::::::::::::::::</source>
+        <target state="translated">::::::::::::::::::::::::::::::::::::::::::::::::::</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

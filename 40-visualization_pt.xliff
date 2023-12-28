@@ -1,0 +1,2537 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file id="181" original="/main/episodes/40-visualization.Rmd" source-language="en" target-language="pt" datatype="plaintext" project-id="11" tool-id="crowdin">
+    <header>
+      <tool tool-id="crowdin" tool-name="Crowdin" tool-version="1.1"/>
+    </header>
+    <body>
+      <trans-unit id="93660">
+        <source>---
+source: Rmd
+title: Data visualization
+teaching: 60
+exercises: 60
+---
+
+```{r loaddata_vis, echo=FALSE, purl=FALSE, message=FALSE}
+if (!file.exists(&quot;data/rnaseq.csv&quot;))
+download.file(url = &quot;https://raw.githubusercontent.com/Bioconductor/bioconductor-teaching/master/data/GSE96870/rnaseq.csv&quot;,
+              destfile = &quot;data/rnaseq.csv&quot;)
+```
+
+::::::::::::::::::::::::::::::::::::::: objectives
+
+- Produce scatter plots, boxplots, line plots, etc. using ggplot.</source>
+        <target state="translated">---
+source: Rmd
+title: Data visualization
+teaching: 60
+exercises: 60
+---
+
+```{r loaddata_vis, echo=FALSE, purl=FALSE, message=FALSE}
+if (!file.exists(&quot;data/rnaseq.csv&quot;))
+download.file(url = &quot;https://raw.githubusercontent.com/Bioconductor/bioconductor-teaching/master/data/GSE96870/rnaseq.csv&quot;,
+              destfile = &quot;data/rnaseq.csv&quot;)
+```
+
+::::::::::::::::::::::::::::::::::::::: objetivos
+
+- Produzir gráficos de dispersão, boxplots, gráficos de linhas, etc. utilizando ggplot.</target>
+      </trans-unit>
+      <trans-unit id="27563">
+        <source>- Set universal plot settings.</source>
+        <target state="translated">- Definir configurações do plot universal.</target>
+      </trans-unit>
+      <trans-unit id="27565">
+        <source>- Describe what faceting is and apply faceting in ggplot.</source>
+        <target state="translated">- Descrever o que é faceting e aplicar faceting no ggplot.</target>
+      </trans-unit>
+      <trans-unit id="27567">
+        <source>- Modify the aesthetics of an existing ggplot plot (including axis labels and color).</source>
+        <target state="translated">- Modifique a estética de um gráfico do ggplot (incluindo rótulos e cores dos eixos).</target>
+      </trans-unit>
+      <trans-unit id="27569">
+        <source>- Build complex and customized plots from data in a data frame.</source>
+        <target state="translated">- Construir gráficos complexos e personalizados a partir de dados num data.frame.</target>
+      </trans-unit>
+      <trans-unit id="93662">
+        <source>::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::: questions
+
+- Visualization in R
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+```{r vis_setup, echo=FALSE}
+rna &lt;- read.csv(&quot;data/rnaseq.csv&quot;)
+```
+
+## Data Visualization
+
+We start by loading the required packages.</source>
+        <target state="translated">::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::: questões
+
+- Visualização em R
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+```{r vis_setup, echo=FALSE}
+rna &lt;- read.csv(&quot;data/rnaseq.csv&quot;)
+```
+
+## Visualização de dados
+
+Começamos por carregar os pacotes necessários.</target>
+      </trans-unit>
+      <trans-unit id="93664">
+        <source>**`ggplot2`** is included in
+the **`tidyverse`** package.</source>
+        <target state="translated">**`ggplot2`** está incluído no pacote **`tidyverse`**.</target>
+      </trans-unit>
+      <trans-unit id="93666">
+        <source>```{r load-package, message=FALSE, purl=TRUE}
+library(&quot;tidyverse&quot;)
+```
+
+If not still in the workspace, load the data we saved in the previous
+lesson.</source>
+        <target state="translated">```{r load-package, message=FALSE, purl=TRUE}
+library(&quot;tidyverse&quot;)
+```
+
+Se ainda não estiver no espaço de trabalho, carregue os dados que guardámos na lição
+anterior.</target>
+      </trans-unit>
+      <trans-unit id="93668">
+        <source>```{r load-data, eval=FALSE, purl=TRUE}
+rna &lt;- read.csv(&quot;data/rnaseq.csv&quot;)
+```
+
+The [Data Visualization Cheat
+Sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-visualization.pdf)
+will cover the basics and more advanced features of `ggplot2` and will
+help, in addition to serve as a reminder, getting an overview of the
+many data representations available in the package.</source>
+        <target state="translated">```{r load-data, eval=FALSE, purl=TRUE}
+rna &lt;- read.csv(&quot;data/rnaseq.csv&quot;)
+```
+
+O [Data Visualization Cheat
+Sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-visualization.pdf)
+cobrirá o básico e as características mais avançadas do `ggplot2` e
+ajudará, além de servir como um lembrete, a obter uma visão geral das
+muitas representações de dados disponíveis no pacote.</target>
+      </trans-unit>
+      <trans-unit id="93670">
+        <source>The following video
+tutorials ([part 1](https://www.youtube.com/watch?v=h29g21z0a68) and
+[2](https://www.youtube.com/watch?v=0m4yywqNPVY)) by Thomas Lin Pedersen
+are also very instructive.</source>
+        <target state="translated">Os seguintes tutoriais em vídeo
+([parte 1](https://www.youtube.com/watch?v=h29g21z0a68) e
+[2](https://www.youtube.com/watch?v=0m4yywqNPVY)) de Thomas Lin Pedersen
+são também muito instrutivos.</target>
+      </trans-unit>
+      <trans-unit id="93672">
+        <source>## Plotting with `ggplot2`
+
+`ggplot2` is a plotting package that makes it simple to create complex
+plots from data in a data frame.</source>
+        <target state="translated">## Plotando com `ggplot2`
+
+`ggplot2` é um pacote de plotagem que torna simples a criação de gráficos complexos
+a partir de dados em um quadro de dados.</target>
+      </trans-unit>
+      <trans-unit id="93674">
+        <source>It provides a more programmatic
+interface for specifying what variables to plot, how they are displayed,
+and general visual properties.</source>
+        <target state="translated">Fornece uma interface
+mais programática para especificar quais as variáveis a representar, como são apresentadas,
+e propriedades visuais gerais.</target>
+      </trans-unit>
+      <trans-unit id="93676">
+        <source>The theoretical foundation that supports
+the `ggplot2` is the *Grammar of Graphics* (@Wilkinson:2005).</source>
+        <target state="translated">A base teórica que suporta
+o `ggplot2` é a *Gramática de Gráficos* (@Wilkinson:2005).</target>
+      </trans-unit>
+      <trans-unit id="93678">
+        <source>Using this
+approach, we only need minimal changes if the underlying data change or
+if we decide to change from a bar plot to a scatterplot.</source>
+        <target state="translated">Utilizando esta abordagem, apenas necessitamos de alterações mínimas se os dados subjacentes mudarem ou
+se decidirmos mudar de um gráfico de barras para um gráfico de dispersão.</target>
+      </trans-unit>
+      <trans-unit id="93680">
+        <source>This helps in
+creating publication quality plots with minimal amounts of adjustments
+and tweaking.</source>
+        <target state="translated">Isto ajuda a
+criar gráficos com qualidade de publicação com o mínimo de ajustes
+e afinações.</target>
+      </trans-unit>
+      <trans-unit id="93682">
+        <source>There is a book about `ggplot2` (@ggplot2book) that provides a good
+overview, but it is outdated.</source>
+        <target state="translated">Existe um livro sobre `ggplot2` (@ggplot2book) que fornece uma boa visão geral, mas está desatualizado.</target>
+      </trans-unit>
+      <trans-unit id="93684">
+        <source>The 3rd edition is in preparation and will
+be [freely available online](https://ggplot2-book.org/).</source>
+        <target state="translated">A 3ª edição está a ser preparada e será
+[disponível gratuitamente online] (https://ggplot2-book.org/).</target>
+      </trans-unit>
+      <trans-unit id="93686">
+        <source>The `ggplot2`
+webpage ([https://ggplot2.tidyverse.org](https://ggplot2.tidyverse.org)) provides ample documentation.</source>
+        <target state="translated">A página `ggplot2`
+([https://ggplot2.tidyverse.org](https://ggplot2.tidyverse.org)) fornece uma ampla documentação.</target>
+      </trans-unit>
+      <trans-unit id="93688">
+        <source>`ggplot2` functions like data in the 'long' format, i.e., a column for
+every dimension, and a row for every observation.</source>
+        <target state="translated">O `ggplot2` funciona como dados no formato 'long', ou seja, uma coluna para
+cada dimensão, e uma linha para cada observação.</target>
+      </trans-unit>
+      <trans-unit id="93690">
+        <source>Well-structured data
+will save you lots of time when making figures with `ggplot2`.</source>
+        <target state="translated">Dados bem estruturados
+poupará muito tempo ao fazer figuras com `ggplot2`.</target>
+      </trans-unit>
+      <trans-unit id="27675">
+        <source>ggplot graphics are built step by step by adding new elements.</source>
+        <target state="translated">os gráficos ggplot são construídos passo a passo através da adição de novos elementos.</target>
+      </trans-unit>
+      <trans-unit id="93692">
+        <source>Adding
+layers in this fashion allows for extensive flexibility and
+customization of plots.</source>
+        <target state="translated">A adição de
+camadas desta forma permite uma grande flexibilidade e
+personalização das parcelas.</target>
+      </trans-unit>
+      <trans-unit id="93694">
+        <source>&gt; The idea behind the Grammar of Graphics it is that you can build every
+&gt; graph from the same 3 components: (1) a data set, (2) a coordinate system,
+&gt; and (3) geoms — i.e. visual marks that represent data points [^three\_comp\_ggplot2]
+
+[^three\_comp\_ggplot2]: Source: [Data Visualization Cheat Sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-visualization.pdf).</source>
+        <target state="translated">&gt; A ideia por detrás da Gramática de Gráficos é que pode construir todos os gráficos
+&gt; a partir dos mesmos 3 componentes: (1) um conjunto de dados, (2) um sistema de coordenadas,
+&gt; e (3) geoms - ou seja, marcas visuais que representam pontos de dados [^three\_comp\_ggplot2]
+
+[^three\_comp\_ggplot2]: Fonte: [Data Visualization Cheat Sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-visualization.pdf).</target>
+      </trans-unit>
+      <trans-unit id="93696">
+        <source>To build a ggplot, we will use the following basic template that can be
+used for different types of plots:
+
+```
+ggplot(data = &lt;DATA&gt;, mapping = aes(&lt;MAPPINGS&gt;)) +  &lt;GEOM_FUNCTION&gt;()
+```
+
+- use the `ggplot()` function and bind the plot to a specific **data
+  frame** using the `data` argument
+
+```{r, eval=FALSE}
+ggplot(data = rna)
+```
+
+- define a **mapping** (using the aesthetic (`aes`) function), by
+  selecting the variables to be plotted and specifying how to present
+  them in the graph, e.g. as x/y positions or characteristics such as
+  size, shape, color, etc.
+
+```{r, eval=FALSE}
+ggplot(data = rna, mapping = aes(x = expression))
+```
+
+- add '**geoms**' - geometries, or graphical representations of the
+  data in the plot (points, lines, bars).</source>
+        <target state="translated">Para construir um ggplot, vamos utilizar o seguinte modelo básico que pode ser
+utilizado para diferentes tipos de gráficos:
+
+```
+ggplot(data = &lt;DATA&gt;, mapping = aes(&lt;MAPPINGS&gt;)) +  &lt;GEOM_FUNCTION&gt;()
+```
+
+- use a função `ggplot()` e associe o gráfico a um **quadro de dados
+  específico** usando o argumento `data`
+
+```{r, eval=FALSE}
+ggplot(data = rna)
+```
+
+- defina um **mapeamento** (usando a função estética (`aes`)),
+  seleccionando as variáveis a serem representadas e especificando como
+  apresentá-las no gráfico, e.por exemplo, como posições x/y ou características como
+  tamanho, forma, cor, etc.
+
+```{r, eval=FALSE}
+ggplot(data = rna, mapping = aes(x = expression))
+```
+
+- adicionar '**geoms**' - geometrias, ou representações gráficas dos
+  dados no gráfico (pontos, linhas, barras).</target>
+      </trans-unit>
+      <trans-unit id="93698">
+        <source>`ggplot2` offers many
+  different geoms; we will use some common ones today, including:
+
+  ```
+  * `geom_point()` for scatter plots, dot plots, etc.
+  * `geom_histogram()` for histograms
+  * `geom_boxplot()` for, well, boxplots!</source>
+        <target state="needs-translation">`ggplot2` offers many
+  different geoms; we will use some common ones today, including:
+
+  ```
+  * `geom_point()` for scatter plots, dot plots, etc.
+  * `geom_histogram()` for histograms
+  * `geom_boxplot()` for, well, boxplots!</target>
+      </trans-unit>
+      <trans-unit id="93700">
+        <source>* `geom_line()` for trend lines, time series, etc.
+  ```
+
+To add a geom(etry) to the plot use the `+` operator.</source>
+        <target state="needs-translation">* `geom_line()` for trend lines, time series, etc.
+  ```
+
+To add a geom(etry) to the plot use the `+` operator.</target>
+      </trans-unit>
+      <trans-unit id="93702">
+        <source>Let's use
+`geom_histogram()` first:
+
+```{r first-ggplot, cache=FALSE, purl=TRUE}
+ggplot(data = rna, mapping = aes(x = expression)) +
+  geom_histogram()
+```
+
+The `+` in the `ggplot2` package is particularly useful because it
+allows you to modify existing `ggplot` objects.</source>
+        <target state="needs-translation">Let's use
+`geom_histogram()` first:
+
+```{r first-ggplot, cache=FALSE, purl=TRUE}
+ggplot(data = rna, mapping = aes(x = expression)) +
+  geom_histogram()
+```
+
+The `+` in the `ggplot2` package is particularly useful because it
+allows you to modify existing `ggplot` objects.</target>
+      </trans-unit>
+      <trans-unit id="93704">
+        <source>This means you can
+easily set up plot templates and conveniently explore different types of
+plots, so the above plot can also be generated with code like this:
+
+```{r, eval=FALSE, purl=TRUE}
+# Assign plot to a variable
+rna_plot &lt;- ggplot(data = rna,
+                   mapping = aes(x = expression))
+
+# Draw the plot
+rna_plot + geom_histogram()
+```
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Challenge
+
+You have probably noticed an automatic message that appears when
+drawing the histogram:
+
+```{r, echo=FALSE, fig.show=&quot;hide&quot;}
+ggplot(rna, aes(x = expression)) +
+  geom_histogram()
+```
+
+Change the arguments `bins` or `binwidth` of `geom_histogram()` to
+change the number or width of the bins.</source>
+        <target state="needs-translation">This means you can
+easily set up plot templates and conveniently explore different types of
+plots, so the above plot can also be generated with code like this:
+
+```{r, eval=FALSE, purl=TRUE}
+# Assign plot to a variable
+rna_plot &lt;- ggplot(data = rna,
+                   mapping = aes(x = expression))
+
+# Draw the plot
+rna_plot + geom_histogram()
+```
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Challenge
+
+You have probably noticed an automatic message that appears when
+drawing the histogram:
+
+```{r, echo=FALSE, fig.show=&quot;hide&quot;}
+ggplot(rna, aes(x = expression)) +
+  geom_histogram()
+```
+
+Change the arguments `bins` or `binwidth` of `geom_histogram()` to
+change the number or width of the bins.</target>
+      </trans-unit>
+      <trans-unit id="93706">
+        <source>:::::::::::::::  solution
+
+## Solution
+
+```{r, purl=TRUE}
+# change bins
+ggplot(rna, aes(x = expression)) +
+    geom_histogram(bins = 15)
+
+# change binwidth
+ggplot(rna, aes(x = expression)) +
+    geom_histogram(binwidth = 2000)
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+We can observe here that the data are skewed to the right.</source>
+        <target state="needs-translation">:::::::::::::::  solution
+
+## Solution
+
+```{r, purl=TRUE}
+# change bins
+ggplot(rna, aes(x = expression)) +
+    geom_histogram(bins = 15)
+
+# change binwidth
+ggplot(rna, aes(x = expression)) +
+    geom_histogram(binwidth = 2000)
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+We can observe here that the data are skewed to the right.</target>
+      </trans-unit>
+      <trans-unit id="93708">
+        <source>We can apply
+log2 transformation to have a more symmetric distribution.</source>
+        <target state="needs-translation">We can apply
+log2 transformation to have a more symmetric distribution.</target>
+      </trans-unit>
+      <trans-unit id="93710">
+        <source>Note that we
+add here a small constant value (`+1`) to avoid having `-Inf` values
+returned for expression values equal to 0.</source>
+        <target state="needs-translation">Note that we
+add here a small constant value (`+1`) to avoid having `-Inf` values
+returned for expression values equal to 0.</target>
+      </trans-unit>
+      <trans-unit id="93712">
+        <source>```{r log-transfo, cache=FALSE, purl=TRUE}
+rna &lt;- rna %&gt;%
+  mutate(expression_log = log2(expression + 1))
+```
+
+If we now draw the histogram of the log2-transformed expressions, the
+distribution is indeed closer to a normal distribution.</source>
+        <target state="needs-translation">```{r log-transfo, cache=FALSE, purl=TRUE}
+rna &lt;- rna %&gt;%
+  mutate(expression_log = log2(expression + 1))
+```
+
+If we now draw the histogram of the log2-transformed expressions, the
+distribution is indeed closer to a normal distribution.</target>
+      </trans-unit>
+      <trans-unit id="93714">
+        <source>```{r second-ggplot, cache=FALSE, purl=TRUE}
+ggplot(rna, aes(x = expression_log)) + geom_histogram()
+```
+
+From now on we will work on the log-transformed expression values.</source>
+        <target state="needs-translation">```{r second-ggplot, cache=FALSE, purl=TRUE}
+ggplot(rna, aes(x = expression_log)) + geom_histogram()
+```
+
+From now on we will work on the log-transformed expression values.</target>
+      </trans-unit>
+      <trans-unit id="93716">
+        <source>:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Challenge
+
+Another way to visualize this transformation is to consider the scale
+of the observations.</source>
+        <target state="needs-translation">:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Challenge
+
+Another way to visualize this transformation is to consider the scale
+of the observations.</target>
+      </trans-unit>
+      <trans-unit id="93718">
+        <source>For example, it may be worth changing the scale
+of the axis to better distribute the observations in the space of the
+plot.</source>
+        <target state="needs-translation">For example, it may be worth changing the scale
+of the axis to better distribute the observations in the space of the
+plot.</target>
+      </trans-unit>
+      <trans-unit id="93720">
+        <source>Changing the scale of the axes is done similarly to
+adding/modifying other components (i.e., by incrementally adding
+commands).</source>
+        <target state="needs-translation">Changing the scale of the axes is done similarly to
+adding/modifying other components (i.e., by incrementally adding
+commands).</target>
+      </trans-unit>
+      <trans-unit id="93722">
+        <source>Try making this modification:
+
+- Represent the un-transformed expression on the log10 scale; see
+  `scale_x_log10()`.</source>
+        <target state="needs-translation">Try making this modification:
+
+- Represent the un-transformed expression on the log10 scale; see
+  `scale_x_log10()`.</target>
+      </trans-unit>
+      <trans-unit id="27889">
+        <source>Compare it with the previous graph.</source>
+        <target state="needs-translation">Compare it with the previous graph.</target>
+      </trans-unit>
+      <trans-unit id="93724">
+        <source>Why do you
+  now have warning messages appearing?</source>
+        <target state="needs-translation">Why do you
+  now have warning messages appearing?</target>
+      </trans-unit>
+      <trans-unit id="93726">
+        <source>:::::::::::::::  solution
+
+## Solution
+
+```{r, eval=TRUE, purl=TRUE, echo=TRUE}
+ggplot(data = rna,mapping = aes(x = expression))+
+  geom_histogram() +
+  scale_x_log10()
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+**Notes**
+
+- Anything you put in the `ggplot()` function can be seen by any geom
+  layers that you add (i.e., these are global plot settings).</source>
+        <target state="needs-translation">:::::::::::::::  solution
+
+## Solution
+
+```{r, eval=TRUE, purl=TRUE, echo=TRUE}
+ggplot(data = rna,mapping = aes(x = expression))+
+  geom_histogram() +
+  scale_x_log10()
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+**Notes**
+
+- Anything you put in the `ggplot()` function can be seen by any geom
+  layers that you add (i.e., these are global plot settings).</target>
+      </trans-unit>
+      <trans-unit id="93728">
+        <source>This
+  includes the x- and y-axis mapping you set up in `aes()`.</source>
+        <target state="needs-translation">This
+  includes the x- and y-axis mapping you set up in `aes()`.</target>
+      </trans-unit>
+      <trans-unit id="93730">
+        <source>- You can also specify mappings for a given geom independently of the
+  mappings defined globally in the `ggplot()` function.</source>
+        <target state="needs-translation">- You can also specify mappings for a given geom independently of the
+  mappings defined globally in the `ggplot()` function.</target>
+      </trans-unit>
+      <trans-unit id="93732">
+        <source>- The `+` sign used to add new layers must be placed at the end of the
+  line containing the *previous* layer.</source>
+        <target state="needs-translation">- The `+` sign used to add new layers must be placed at the end of the
+  line containing the *previous* layer.</target>
+      </trans-unit>
+      <trans-unit id="93734">
+        <source>If, instead, the `+` sign is
+  added at the beginning of the line containing the new layer,
+  `ggplot2` will not add the new layer and will return an error
+  message.</source>
+        <target state="needs-translation">If, instead, the `+` sign is
+  added at the beginning of the line containing the new layer,
+  `ggplot2` will not add the new layer and will return an error
+  message.</target>
+      </trans-unit>
+      <trans-unit id="93736">
+        <source>```{r, eval=FALSE}
+# This is the correct syntax for adding layers
+rna_plot +
+  geom_histogram()
+
+# This will not add the new layer and will return an error message
+rna_plot
+  + geom_histogram()
+```
+
+## Building your plots iteratively
+
+We will now draw a scatter plot with two continuous variables and the
+`geom_point()` function.</source>
+        <target state="needs-translation">```{r, eval=FALSE}
+# This is the correct syntax for adding layers
+rna_plot +
+  geom_histogram()
+
+# This will not add the new layer and will return an error message
+rna_plot
+  + geom_histogram()
+```
+
+## Building your plots iteratively
+
+We will now draw a scatter plot with two continuous variables and the
+`geom_point()` function.</target>
+      </trans-unit>
+      <trans-unit id="93738">
+        <source>This graph will represent the log2 fold changes
+of expression comparing time 8 versus time 0, and time 4 versus time 0.</source>
+        <target state="needs-translation">This graph will represent the log2 fold changes
+of expression comparing time 8 versus time 0, and time 4 versus time 0.</target>
+      </trans-unit>
+      <trans-unit id="93740">
+        <source>To this end, we first need to compute the means of the log-transformed
+expression values by gene and time, then the log fold changes by
+subtracting the mean log expressions between time 8 and time 0 and
+between time 4 and time 0.</source>
+        <target state="needs-translation">To this end, we first need to compute the means of the log-transformed
+expression values by gene and time, then the log fold changes by
+subtracting the mean log expressions between time 8 and time 0 and
+between time 4 and time 0.</target>
+      </trans-unit>
+      <trans-unit id="93742">
+        <source>Note that we also include here the gene
+biotype that we will use later on to represent the genes.</source>
+        <target state="needs-translation">Note that we also include here the gene
+biotype that we will use later on to represent the genes.</target>
+      </trans-unit>
+      <trans-unit id="93744">
+        <source>We will save
+the fold changes in a new data frame called `rna_fc.`
+
+```{r rna_fc, cache=FALSE, purl=TRUE}
+rna_fc &lt;- rna %&gt;% select(gene, time,
+                         gene_biotype, expression_log) %&gt;%
+  group_by(gene, time, gene_biotype) %&gt;%
+  summarize(mean_exp = mean(expression_log)) %&gt;%
+  pivot_wider(names_from = time,
+              values_from = mean_exp) %&gt;%
+  mutate(time_8_vs_0 = `8` - `0`, time_4_vs_0 = `4` - `0`)
+
+```
+
+We can then build a ggplot with the newly created dataset `rna_fc`.</source>
+        <target state="needs-translation">We will save
+the fold changes in a new data frame called `rna_fc.`
+
+```{r rna_fc, cache=FALSE, purl=TRUE}
+rna_fc &lt;- rna %&gt;% select(gene, time,
+                         gene_biotype, expression_log) %&gt;%
+  group_by(gene, time, gene_biotype) %&gt;%
+  summarize(mean_exp = mean(expression_log)) %&gt;%
+  pivot_wider(names_from = time,
+              values_from = mean_exp) %&gt;%
+  mutate(time_8_vs_0 = `8` - `0`, time_4_vs_0 = `4` - `0`)
+
+```
+
+We can then build a ggplot with the newly created dataset `rna_fc`.</target>
+      </trans-unit>
+      <trans-unit id="28001">
+        <source>Building plots with `ggplot2` is typically an iterative process.</source>
+        <target state="needs-translation">Building plots with `ggplot2` is typically an iterative process.</target>
+      </trans-unit>
+      <trans-unit id="93746">
+        <source>We
+start by defining the dataset we'll use, lay out the axes, and choose a
+geom:
+
+```{r create-ggplot-object, cache=FALSE, purl=TRUE}
+ggplot(data = rna_fc, mapping = aes(x = time_4_vs_0, y = time_8_vs_0)) +
+  geom_point()
+```
+
+Then, we start modifying this plot to extract more information from it.</source>
+        <target state="needs-translation">We
+start by defining the dataset we'll use, lay out the axes, and choose a
+geom:
+
+```{r create-ggplot-object, cache=FALSE, purl=TRUE}
+ggplot(data = rna_fc, mapping = aes(x = time_4_vs_0, y = time_8_vs_0)) +
+  geom_point()
+```
+
+Then, we start modifying this plot to extract more information from it.</target>
+      </trans-unit>
+      <trans-unit id="93748">
+        <source>For instance, we can add transparency (`alpha`) to avoid overplotting:
+
+```{r adding-transparency, cache=FALSE, purl=TRUE}
+ggplot(data = rna_fc, mapping = aes(x = time_4_vs_0, y = time_8_vs_0)) +
+  geom_point(alpha = 0.3)
+```
+
+We can also add colors for all the points:
+
+```{r adding-colors, cache=FALSE, purl=TRUE}
+ggplot(data = rna_fc, mapping = aes(x = time_4_vs_0, y = time_8_vs_0)) +
+  geom_point(alpha = 0.3, color = &quot;blue&quot;)
+```
+
+Or to color each gene in the plot differently, you could use a vector as
+an input to the argument **color**.</source>
+        <target state="needs-translation">For instance, we can add transparency (`alpha`) to avoid overplotting:
+
+```{r adding-transparency, cache=FALSE, purl=TRUE}
+ggplot(data = rna_fc, mapping = aes(x = time_4_vs_0, y = time_8_vs_0)) +
+  geom_point(alpha = 0.3)
+```
+
+We can also add colors for all the points:
+
+```{r adding-colors, cache=FALSE, purl=TRUE}
+ggplot(data = rna_fc, mapping = aes(x = time_4_vs_0, y = time_8_vs_0)) +
+  geom_point(alpha = 0.3, color = &quot;blue&quot;)
+```
+
+Or to color each gene in the plot differently, you could use a vector as
+an input to the argument **color**.</target>
+      </trans-unit>
+      <trans-unit id="93750">
+        <source>`ggplot2` will provide a different
+color corresponding to different values in the vector.</source>
+        <target state="needs-translation">`ggplot2` will provide a different
+color corresponding to different values in the vector.</target>
+      </trans-unit>
+      <trans-unit id="93752">
+        <source>Here is an
+example where we color with `gene_biotype`:
+
+```{r color-by-gene_biotype1, cache=FALSE, purl=TRUE}
+ggplot(data = rna_fc, mapping = aes(x = time_4_vs_0, y = time_8_vs_0)) +
+  geom_point(alpha = 0.3, aes(color = gene_biotype))
+
+```
+
+We can also specify the colors directly inside the mapping provided in
+the `ggplot()` function.</source>
+        <target state="needs-translation">Here is an
+example where we color with `gene_biotype`:
+
+```{r color-by-gene_biotype1, cache=FALSE, purl=TRUE}
+ggplot(data = rna_fc, mapping = aes(x = time_4_vs_0, y = time_8_vs_0)) +
+  geom_point(alpha = 0.3, aes(color = gene_biotype))
+
+```
+
+We can also specify the colors directly inside the mapping provided in
+the `ggplot()` function.</target>
+      </trans-unit>
+      <trans-unit id="93754">
+        <source>This will be seen by any geom layers and the
+mapping will be determined by the x- and y-axis set up in `aes()`.</source>
+        <target state="needs-translation">This will be seen by any geom layers and the
+mapping will be determined by the x- and y-axis set up in `aes()`.</target>
+      </trans-unit>
+      <trans-unit id="93756">
+        <source>```{r color-by-gene_biotype2, cache=FALSE, purl=TRUE}
+ggplot(data = rna_fc, mapping = aes(x = time_4_vs_0, y = time_8_vs_0,
+                                color = gene_biotype)) +
+  geom_point(alpha = 0.3)
+```
+
+Finally, we could also add a diagonal line with the `geom_abline()`
+function:
+
+```{r adding-diag, cache=FALSE, purl=TRUE}
+ggplot(data = rna_fc, mapping = aes(x = time_4_vs_0, y = time_8_vs_0,
+                                color = gene_biotype)) +
+  geom_point(alpha = 0.3) +
+  geom_abline(intercept = 0)
+```
+
+Notice that we can change the geom layer from `geom_point` to
+`geom_jitter` and colors will still be determined by `gene_biotype`.</source>
+        <target state="needs-translation">```{r color-by-gene_biotype2, cache=FALSE, purl=TRUE}
+ggplot(data = rna_fc, mapping = aes(x = time_4_vs_0, y = time_8_vs_0,
+                                color = gene_biotype)) +
+  geom_point(alpha = 0.3)
+```
+
+Finally, we could also add a diagonal line with the `geom_abline()`
+function:
+
+```{r adding-diag, cache=FALSE, purl=TRUE}
+ggplot(data = rna_fc, mapping = aes(x = time_4_vs_0, y = time_8_vs_0,
+                                color = gene_biotype)) +
+  geom_point(alpha = 0.3) +
+  geom_abline(intercept = 0)
+```
+
+Notice that we can change the geom layer from `geom_point` to
+`geom_jitter` and colors will still be determined by `gene_biotype`.</target>
+      </trans-unit>
+      <trans-unit id="93758">
+        <source>```{r color-by-gene_biotype3, cache=FALSE, purl=TRUE}
+ggplot(data = rna_fc, mapping = aes(x = time_4_vs_0, y = time_8_vs_0,
+                                color = gene_biotype)) +
+  geom_jitter(alpha = 0.3) +
+  geom_abline(intercept = 0)
+```
+
+```{r, echo=FALSE, message=FALSE}
+library(&quot;hexbin&quot;)
+```
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Challenge
+
+Scatter plots can be useful exploratory tools for small datasets.</source>
+        <target state="needs-translation">```{r color-by-gene_biotype3, cache=FALSE, purl=TRUE}
+ggplot(data = rna_fc, mapping = aes(x = time_4_vs_0, y = time_8_vs_0,
+                                color = gene_biotype)) +
+  geom_jitter(alpha = 0.3) +
+  geom_abline(intercept = 0)
+```
+
+```{r, echo=FALSE, message=FALSE}
+library(&quot;hexbin&quot;)
+```
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Challenge
+
+Scatter plots can be useful exploratory tools for small datasets.</target>
+      </trans-unit>
+      <trans-unit id="93760">
+        <source>For
+data sets with large numbers of observations, such as the `rna_fc`
+data set, overplotting of points can be a limitation of scatter plots.</source>
+        <target state="needs-translation">For
+data sets with large numbers of observations, such as the `rna_fc`
+data set, overplotting of points can be a limitation of scatter plots.</target>
+      </trans-unit>
+      <trans-unit id="93762">
+        <source>One strategy for handling such settings is to use hexagonal binning of
+observations.</source>
+        <target state="needs-translation">One strategy for handling such settings is to use hexagonal binning of
+observations.</target>
+      </trans-unit>
+      <trans-unit id="28131">
+        <source>The plot space is tessellated into hexagons.</source>
+        <target state="needs-translation">The plot space is tessellated into hexagons.</target>
+      </trans-unit>
+      <trans-unit id="93764">
+        <source>Each
+hexagon is assigned a color based on the number of observations that
+fall within its boundaries.</source>
+        <target state="needs-translation">Each
+hexagon is assigned a color based on the number of observations that
+fall within its boundaries.</target>
+      </trans-unit>
+      <trans-unit id="93766">
+        <source>- To use hexagonal binning in `ggplot2`, first install the R package
+  `hexbin` from CRAN and load it.</source>
+        <target state="needs-translation">- To use hexagonal binning in `ggplot2`, first install the R package
+  `hexbin` from CRAN and load it.</target>
+      </trans-unit>
+      <trans-unit id="28143">
+        <source>- Then use the `geom_hex()` function to produce the hexbin figure.</source>
+        <target state="needs-translation">- Then use the `geom_hex()` function to produce the hexbin figure.</target>
+      </trans-unit>
+      <trans-unit id="93768">
+        <source>- What are the relative strengths and weaknesses of a hexagonal bin
+  plot compared to a scatter plot?</source>
+        <target state="needs-translation">- What are the relative strengths and weaknesses of a hexagonal bin
+  plot compared to a scatter plot?</target>
+      </trans-unit>
+      <trans-unit id="93770">
+        <source>Examine the above scatter plot
+  and compare it with the hexagonal bin plot that you created.</source>
+        <target state="needs-translation">Examine the above scatter plot
+  and compare it with the hexagonal bin plot that you created.</target>
+      </trans-unit>
+      <trans-unit id="93772">
+        <source>:::::::::::::::  solution
+
+## Solution
+
+```{r, eval=FALSE, purl=TRUE}
+install.packages(&quot;hexbin&quot;)
+```
+
+```{r, purl=TRUE}
+library(&quot;hexbin&quot;)
+
+ggplot(data = rna_fc, mapping = aes(x = time_4_vs_0, y = time_8_vs_0)) +
+  geom_hex() +
+  geom_abline(intercept = 0)
+
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Challenge
+
+Use what you just learned to create a scatter plot of `expression_log`
+over `sample` from the `rna` dataset with the time showing in
+different colors.</source>
+        <target state="needs-translation">:::::::::::::::  solution
+
+## Solution
+
+```{r, eval=FALSE, purl=TRUE}
+install.packages(&quot;hexbin&quot;)
+```
+
+```{r, purl=TRUE}
+library(&quot;hexbin&quot;)
+
+ggplot(data = rna_fc, mapping = aes(x = time_4_vs_0, y = time_8_vs_0)) +
+  geom_hex() +
+  geom_abline(intercept = 0)
+
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Challenge
+
+Use what you just learned to create a scatter plot of `expression_log`
+over `sample` from the `rna` dataset with the time showing in
+different colors.</target>
+      </trans-unit>
+      <trans-unit id="28189">
+        <source>Is this a good way to show this type of data?</source>
+        <target state="needs-translation">Is this a good way to show this type of data?</target>
+      </trans-unit>
+      <trans-unit id="93774">
+        <source>:::::::::::::::  solution
+
+## Solution
+
+```{r, eval=TRUE, purl=TRUE}
+ggplot(data = rna, mapping = aes(y = expression_log, x = sample)) +
+    geom_point(aes(color = time))
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+## Boxplot
+
+We can use boxplots to visualize the distribution of gene expressions
+within each sample:
+
+```{r boxplot, cache=FALSE, purl=TRUE}
+ggplot(data = rna,
+         mapping = aes(y = expression_log, x = sample)) +
+  geom_boxplot()
+```
+
+By adding points to boxplot, we can have a better idea of the number of
+measurements and of their distribution:
+
+```{r boxplot-with-points, cache=FALSE, purl=TRUE}
+ggplot(data = rna,
+         mapping = aes(y = expression_log, x = sample)) +
+  geom_jitter(alpha = 0.2, color = &quot;tomato&quot;) +
+  geom_boxplot(alpha = 0)
+```
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Challenge
+
+Note how the boxplot layer is in front of the jitter layer?</source>
+        <target state="needs-translation">:::::::::::::::  solution
+
+## Solution
+
+```{r, eval=TRUE, purl=TRUE}
+ggplot(data = rna, mapping = aes(y = expression_log, x = sample)) +
+    geom_point(aes(color = time))
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+## Boxplot
+
+We can use boxplots to visualize the distribution of gene expressions
+within each sample:
+
+```{r boxplot, cache=FALSE, purl=TRUE}
+ggplot(data = rna,
+         mapping = aes(y = expression_log, x = sample)) +
+  geom_boxplot()
+```
+
+By adding points to boxplot, we can have a better idea of the number of
+measurements and of their distribution:
+
+```{r boxplot-with-points, cache=FALSE, purl=TRUE}
+ggplot(data = rna,
+         mapping = aes(y = expression_log, x = sample)) +
+  geom_jitter(alpha = 0.2, color = &quot;tomato&quot;) +
+  geom_boxplot(alpha = 0)
+```
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Challenge
+
+Note how the boxplot layer is in front of the jitter layer?</target>
+      </trans-unit>
+      <trans-unit id="93776">
+        <source>What do
+you need to change in the code to put the boxplot below the points?</source>
+        <target state="needs-translation">What do
+you need to change in the code to put the boxplot below the points?</target>
+      </trans-unit>
+      <trans-unit id="93778">
+        <source>:::::::::::::::  solution
+
+## Solution
+
+We should switch the order of these two geoms:
+
+```{r boxplot-with-points2, cache=FALSE, purl=TRUE}
+ggplot(data = rna,
+         mapping = aes(y = expression_log, x = sample)) +
+  geom_boxplot(alpha = 0) +
+  geom_jitter(alpha = 0.2, color = &quot;tomato&quot;)
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+You may notice that the values on the x-axis are still not properly
+readable.</source>
+        <target state="needs-translation">:::::::::::::::  solution
+
+## Solution
+
+We should switch the order of these two geoms:
+
+```{r boxplot-with-points2, cache=FALSE, purl=TRUE}
+ggplot(data = rna,
+         mapping = aes(y = expression_log, x = sample)) +
+  geom_boxplot(alpha = 0) +
+  geom_jitter(alpha = 0.2, color = &quot;tomato&quot;)
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+You may notice that the values on the x-axis are still not properly
+readable.</target>
+      </trans-unit>
+      <trans-unit id="93780">
+        <source>Let's change the orientation of the labels and adjust them
+vertically and horizontally so they don't overlap.</source>
+        <target state="needs-translation">Let's change the orientation of the labels and adjust them
+vertically and horizontally so they don't overlap.</target>
+      </trans-unit>
+      <trans-unit id="93782">
+        <source>You can use a
+90-degree angle, or experiment to find the appropriate angle for
+diagonally oriented labels:
+
+```{r boxplot-xaxis-rotated, cache=FALSE, purl=TRUE}
+ggplot(data = rna,
+         mapping = aes(y = expression_log, x = sample)) +
+  geom_jitter(alpha = 0.2, color = &quot;tomato&quot;) +
+  geom_boxplot(alpha = 0) +
+  theme(axis.text.x = element_text(angle = 90,  hjust = 0.5, vjust = 0.5))
+```
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Challenge
+
+Add color to the data points on your boxplot according to the duration
+of the infection (`time`).</source>
+        <target state="needs-translation">You can use a
+90-degree angle, or experiment to find the appropriate angle for
+diagonally oriented labels:
+
+```{r boxplot-xaxis-rotated, cache=FALSE, purl=TRUE}
+ggplot(data = rna,
+         mapping = aes(y = expression_log, x = sample)) +
+  geom_jitter(alpha = 0.2, color = &quot;tomato&quot;) +
+  geom_boxplot(alpha = 0) +
+  theme(axis.text.x = element_text(angle = 90,  hjust = 0.5, vjust = 0.5))
+```
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Challenge
+
+Add color to the data points on your boxplot according to the duration
+of the infection (`time`).</target>
+      </trans-unit>
+      <trans-unit id="28307">
+        <source>*Hint:* Check the class for `time`.</source>
+        <target state="needs-translation">*Hint:* Check the class for `time`.</target>
+      </trans-unit>
+      <trans-unit id="93784">
+        <source>Consider changing the class of
+`time` from integer to factor directly in the ggplot mapping.</source>
+        <target state="needs-translation">Consider changing the class of
+`time` from integer to factor directly in the ggplot mapping.</target>
+      </trans-unit>
+      <trans-unit id="93786">
+        <source>Why does
+this change how R makes the graph?</source>
+        <target state="needs-translation">Why does
+this change how R makes the graph?</target>
+      </trans-unit>
+      <trans-unit id="93788">
+        <source>:::::::::::::::  solution
+
+## Solution
+
+```{r boxplot-color-time, cache=FALSE, purl=TRUE}
+# time as integer
+ggplot(data = rna,
+         mapping = aes(y = expression_log,
+                       x = sample)) +
+  geom_jitter(alpha = 0.2, aes(color = time)) +
+  geom_boxplot(alpha = 0) +
+  theme(axis.text.x = element_text(angle = 90,  hjust = 0.5, vjust = 0.5))
+
+# time as factor
+ggplot(data = rna,
+         mapping = aes(y = expression_log,
+                       x = sample)) +
+  geom_jitter(alpha = 0.2, aes(color = as.factor(time))) +
+  geom_boxplot(alpha = 0) +
+  theme(axis.text.x = element_text(angle = 90,  hjust = 0.5, vjust = 0.5))
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Challenge
+
+Boxplots are useful summaries, but hide the *shape* of the
+distribution.</source>
+        <target state="needs-translation">:::::::::::::::  solution
+
+## Solution
+
+```{r boxplot-color-time, cache=FALSE, purl=TRUE}
+# time as integer
+ggplot(data = rna,
+         mapping = aes(y = expression_log,
+                       x = sample)) +
+  geom_jitter(alpha = 0.2, aes(color = time)) +
+  geom_boxplot(alpha = 0) +
+  theme(axis.text.x = element_text(angle = 90,  hjust = 0.5, vjust = 0.5))
+
+# time as factor
+ggplot(data = rna,
+         mapping = aes(y = expression_log,
+                       x = sample)) +
+  geom_jitter(alpha = 0.2, aes(color = as.factor(time))) +
+  geom_boxplot(alpha = 0) +
+  theme(axis.text.x = element_text(angle = 90,  hjust = 0.5, vjust = 0.5))
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Challenge
+
+Boxplots are useful summaries, but hide the *shape* of the
+distribution.</target>
+      </trans-unit>
+      <trans-unit id="93790">
+        <source>For example, if the distribution is bimodal, we would
+not see it in a boxplot.</source>
+        <target state="needs-translation">For example, if the distribution is bimodal, we would
+not see it in a boxplot.</target>
+      </trans-unit>
+      <trans-unit id="93792">
+        <source>An alternative to the boxplot is the violin
+plot, where the shape (of the density of points) is drawn.</source>
+        <target state="needs-translation">An alternative to the boxplot is the violin
+plot, where the shape (of the density of points) is drawn.</target>
+      </trans-unit>
+      <trans-unit id="28373">
+        <source>- Replace the box plot with a violin plot; see `geom_violin()`.</source>
+        <target state="needs-translation">- Replace the box plot with a violin plot; see `geom_violin()`.</target>
+      </trans-unit>
+      <trans-unit id="93794">
+        <source>Fill
+  in the violins according to the time with the argument `fill`.</source>
+        <target state="needs-translation">Fill
+  in the violins according to the time with the argument `fill`.</target>
+      </trans-unit>
+      <trans-unit id="93796">
+        <source>:::::::::::::::  solution
+
+## Solution
+
+```{r, eval=TRUE, echo=TRUE, cache=FALSE, purl=TRUE}
+ggplot(data = rna,
+         mapping = aes(y = expression_log, x = sample)) +
+  geom_violin(aes(fill = as.factor(time))) +
+  theme(axis.text.x = element_text(angle = 90,  hjust = 0.5, vjust = 0.5))
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Challenge
+
+- Modify the violin plot to fill in the violins by `sex`.</source>
+        <target state="needs-translation">:::::::::::::::  solution
+
+## Solution
+
+```{r, eval=TRUE, echo=TRUE, cache=FALSE, purl=TRUE}
+ggplot(data = rna,
+         mapping = aes(y = expression_log, x = sample)) +
+  geom_violin(aes(fill = as.factor(time))) +
+  theme(axis.text.x = element_text(angle = 90,  hjust = 0.5, vjust = 0.5))
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Challenge
+
+- Modify the violin plot to fill in the violins by `sex`.</target>
+      </trans-unit>
+      <trans-unit id="93798">
+        <source>:::::::::::::::  solution
+
+## Solution
+
+```{r, eval=TRUE, echo=TRUE, cache=FALSE, purl=TRUE}
+ggplot(data = rna,
+         mapping = aes(y = expression_log, x = sample)) +
+  geom_violin(aes(fill = sex)) +
+  theme(axis.text.x = element_text(angle = 90,  hjust = 0.5, vjust = 0.5))
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+## Line plots
+
+Let's calculate the mean expression per duration of the infection for
+the 10 genes having the highest log fold changes comparing time 8 versus
+time 0.</source>
+        <target state="needs-translation">:::::::::::::::  solution
+
+## Solution
+
+```{r, eval=TRUE, echo=TRUE, cache=FALSE, purl=TRUE}
+ggplot(data = rna,
+         mapping = aes(y = expression_log, x = sample)) +
+  geom_violin(aes(fill = sex)) +
+  theme(axis.text.x = element_text(angle = 90,  hjust = 0.5, vjust = 0.5))
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+## Line plots
+
+Let's calculate the mean expression per duration of the infection for
+the 10 genes having the highest log fold changes comparing time 8 versus
+time 0.</target>
+      </trans-unit>
+      <trans-unit id="93800">
+        <source>First, we need to select the genes and create a subset of `rna`
+called `sub_rna` containing the 10 selected genes, then we need to group
+the data and calculate the mean gene expression within each group:
+
+```{r, purl=TRUE}
+rna_fc &lt;- rna_fc %&gt;% arrange(desc(time_8_vs_0))
+
+genes_selected &lt;- rna_fc$gene[1:10]
+
+sub_rna &lt;- rna %&gt;%
+    filter(gene %in% genes_selected)
+
+mean_exp_by_time &lt;- sub_rna %&gt;%
+  group_by(gene,time) %&gt;%
+    summarize(mean_exp = mean(expression_log))
+
+mean_exp_by_time
+```
+
+We can build the line plot with duration of the infection on the x-axis
+and the mean expression on the y-axis:
+
+```{r first-time-series, purl=TRUE}
+ggplot(data = mean_exp_by_time, mapping = aes(x = time, y = mean_exp)) +
+  geom_line()
+```
+
+Unfortunately, this does not work because we plotted data for all the
+genes together.</source>
+        <target state="needs-translation">First, we need to select the genes and create a subset of `rna`
+called `sub_rna` containing the 10 selected genes, then we need to group
+the data and calculate the mean gene expression within each group:
+
+```{r, purl=TRUE}
+rna_fc &lt;- rna_fc %&gt;% arrange(desc(time_8_vs_0))
+
+genes_selected &lt;- rna_fc$gene[1:10]
+
+sub_rna &lt;- rna %&gt;%
+    filter(gene %in% genes_selected)
+
+mean_exp_by_time &lt;- sub_rna %&gt;%
+  group_by(gene,time) %&gt;%
+    summarize(mean_exp = mean(expression_log))
+
+mean_exp_by_time
+```
+
+We can build the line plot with duration of the infection on the x-axis
+and the mean expression on the y-axis:
+
+```{r first-time-series, purl=TRUE}
+ggplot(data = mean_exp_by_time, mapping = aes(x = time, y = mean_exp)) +
+  geom_line()
+```
+
+Unfortunately, this does not work because we plotted data for all the
+genes together.</target>
+      </trans-unit>
+      <trans-unit id="93802">
+        <source>We need to tell ggplot to draw a line for each gene by
+modifying the aesthetic function to include `group = gene`:
+
+```{r time-series-by-gene, purl=TRUE}
+ggplot(data = mean_exp_by_time,
+       mapping = aes(x = time, y = mean_exp, group = gene)) +
+  geom_line()
+```
+
+We will be able to distinguish genes in the plot if we add colors (using
+`color` also automatically groups the data):
+
+```{r time-series-with-colors, purl=TRUE}
+ggplot(data = mean_exp_by_time,
+       mapping = aes(x = time, y = mean_exp, color = gene)) +
+  geom_line()
+```
+
+## Faceting
+
+`ggplot2` has a special technique called *faceting* that allows the user
+to split one plot into multiple (sub) plots based on a factor included
+in the dataset.</source>
+        <target state="needs-translation">We need to tell ggplot to draw a line for each gene by
+modifying the aesthetic function to include `group = gene`:
+
+```{r time-series-by-gene, purl=TRUE}
+ggplot(data = mean_exp_by_time,
+       mapping = aes(x = time, y = mean_exp, group = gene)) +
+  geom_line()
+```
+
+We will be able to distinguish genes in the plot if we add colors (using
+`color` also automatically groups the data):
+
+```{r time-series-with-colors, purl=TRUE}
+ggplot(data = mean_exp_by_time,
+       mapping = aes(x = time, y = mean_exp, color = gene)) +
+  geom_line()
+```
+
+## Faceting
+
+`ggplot2` has a special technique called *faceting* that allows the user
+to split one plot into multiple (sub) plots based on a factor included
+in the dataset.</target>
+      </trans-unit>
+      <trans-unit id="93804">
+        <source>These different subplots inherit the same properties
+(axes limits, ticks, ...) to facilitate their direct comparison.</source>
+        <target state="needs-translation">These different subplots inherit the same properties
+(axes limits, ticks, ...) to facilitate their direct comparison.</target>
+      </trans-unit>
+      <trans-unit id="93806">
+        <source>We will
+use it to make a line plot across time for each gene:
+
+```{r first-facet, purl=TRUE}
+ggplot(data = mean_exp_by_time,
+       mapping = aes(x = time, y = mean_exp)) + geom_line() +
+  facet_wrap(~ gene)
+```
+
+Here both x- and y-axis have the same scale for all the subplots.</source>
+        <target state="needs-translation">We will
+use it to make a line plot across time for each gene:
+
+```{r first-facet, purl=TRUE}
+ggplot(data = mean_exp_by_time,
+       mapping = aes(x = time, y = mean_exp)) + geom_line() +
+  facet_wrap(~ gene)
+```
+
+Here both x- and y-axis have the same scale for all the subplots.</target>
+      </trans-unit>
+      <trans-unit id="93808">
+        <source>You
+can change this default behavior by modifying `scales` in order to allow
+a free scale for the y-axis:
+
+```{r first-facet-scales, purl=TRUE}
+ggplot(data = mean_exp_by_time,
+       mapping = aes(x = time, y = mean_exp)) +
+  geom_line() +
+  facet_wrap(~ gene, scales = &quot;free_y&quot;)
+```
+
+Now we would like to split the line in each plot by the sex of the mice.</source>
+        <target state="needs-translation">You
+can change this default behavior by modifying `scales` in order to allow
+a free scale for the y-axis:
+
+```{r first-facet-scales, purl=TRUE}
+ggplot(data = mean_exp_by_time,
+       mapping = aes(x = time, y = mean_exp)) +
+  geom_line() +
+  facet_wrap(~ gene, scales = &quot;free_y&quot;)
+```
+
+Now we would like to split the line in each plot by the sex of the mice.</target>
+      </trans-unit>
+      <trans-unit id="93810">
+        <source>To do that we need to calculate the mean expression in the data frame
+grouped by `gene`, `time`, and `sex`:
+
+```{r data-facet-by-gene-and-sex, purl=TRUE}
+mean_exp_by_time_sex &lt;- sub_rna %&gt;%
+  group_by(gene, time, sex) %&gt;%
+    summarize(mean_exp = mean(expression_log))
+
+mean_exp_by_time_sex
+```
+
+We can now make the faceted plot by splitting further by sex using
+`color` (within a single plot):
+
+```{r facet-by-gene-and-sex, cache=FALSE, purl=TRUE}
+ggplot(data = mean_exp_by_time_sex,
+       mapping = aes(x = time, y = mean_exp, color = sex)) +
+  geom_line() +
+  facet_wrap(~ gene, scales = &quot;free_y&quot;)
+```
+
+Usually plots with white background look more readable when printed.</source>
+        <target state="needs-translation">To do that we need to calculate the mean expression in the data frame
+grouped by `gene`, `time`, and `sex`:
+
+```{r data-facet-by-gene-and-sex, purl=TRUE}
+mean_exp_by_time_sex &lt;- sub_rna %&gt;%
+  group_by(gene, time, sex) %&gt;%
+    summarize(mean_exp = mean(expression_log))
+
+mean_exp_by_time_sex
+```
+
+We can now make the faceted plot by splitting further by sex using
+`color` (within a single plot):
+
+```{r facet-by-gene-and-sex, cache=FALSE, purl=TRUE}
+ggplot(data = mean_exp_by_time_sex,
+       mapping = aes(x = time, y = mean_exp, color = sex)) +
+  geom_line() +
+  facet_wrap(~ gene, scales = &quot;free_y&quot;)
+```
+
+Usually plots with white background look more readable when printed.</target>
+      </trans-unit>
+      <trans-unit id="93812">
+        <source>We
+can set the background to white using the function `theme_bw()`.</source>
+        <target state="needs-translation">We
+can set the background to white using the function `theme_bw()`.</target>
+      </trans-unit>
+      <trans-unit id="93814">
+        <source>Additionally, we can remove the grid:
+
+```{r facet-by-gene-and-sex-white-bg, cache=FALSE, purl=TRUE}
+ggplot(data = mean_exp_by_time_sex,
+       mapping = aes(x = time, y = mean_exp, color = sex)) +
+  geom_line() +
+  facet_wrap(~ gene, scales = &quot;free_y&quot;) +
+  theme_bw() +
+  theme(panel.grid = element_blank())
+```
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Challenge
+
+Use what you just learned to create a plot that depicts how the
+average expression of each chromosome changes through the duration of
+infection.</source>
+        <target state="needs-translation">Additionally, we can remove the grid:
+
+```{r facet-by-gene-and-sex-white-bg, cache=FALSE, purl=TRUE}
+ggplot(data = mean_exp_by_time_sex,
+       mapping = aes(x = time, y = mean_exp, color = sex)) +
+  geom_line() +
+  facet_wrap(~ gene, scales = &quot;free_y&quot;) +
+  theme_bw() +
+  theme(panel.grid = element_blank())
+```
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Challenge
+
+Use what you just learned to create a plot that depicts how the
+average expression of each chromosome changes through the duration of
+infection.</target>
+      </trans-unit>
+      <trans-unit id="93816">
+        <source>:::::::::::::::  solution
+
+## Solution
+
+```{r mean-exp-chromosome-time-series, purl=TRUE}
+mean_exp_by_chromosome &lt;- rna %&gt;%
+  group_by(chromosome_name, time) %&gt;%
+  summarize(mean_exp = mean(expression_log))
+
+ggplot(data = mean_exp_by_chromosome, mapping = aes(x = time,
+                                y = mean_exp)) +
+  geom_line() +
+  facet_wrap(~ chromosome_name, scales = &quot;free_y&quot;)
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+The `facet_wrap` geometry extracts plots into an arbitrary number of
+dimensions to allow them to cleanly fit on one page.</source>
+        <target state="needs-translation">:::::::::::::::  solution
+
+## Solution
+
+```{r mean-exp-chromosome-time-series, purl=TRUE}
+mean_exp_by_chromosome &lt;- rna %&gt;%
+  group_by(chromosome_name, time) %&gt;%
+  summarize(mean_exp = mean(expression_log))
+
+ggplot(data = mean_exp_by_chromosome, mapping = aes(x = time,
+                                y = mean_exp)) +
+  geom_line() +
+  facet_wrap(~ chromosome_name, scales = &quot;free_y&quot;)
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+The `facet_wrap` geometry extracts plots into an arbitrary number of
+dimensions to allow them to cleanly fit on one page.</target>
+      </trans-unit>
+      <trans-unit id="93818">
+        <source>On the other hand,
+the `facet_grid` geometry allows you to explicitly specify how you want
+your plots to be arranged via formula notation (`rows ~ columns`; a `.`
+can be used as a placeholder that indicates only one row or column).</source>
+        <target state="needs-translation">On the other hand,
+the `facet_grid` geometry allows you to explicitly specify how you want
+your plots to be arranged via formula notation (`rows ~ columns`; a `.`
+can be used as a placeholder that indicates only one row or column).</target>
+      </trans-unit>
+      <trans-unit id="93820">
+        <source>Let's modify the previous plot to compare how the mean gene expression
+of males and females has changed through time:
+
+```{r mean-exp-time-facet-sex-rows, purl=TRUE}
+# One column, facet by rows
+ggplot(data = mean_exp_by_time_sex,
+       mapping = aes(x = time, y = mean_exp, color = gene)) +
+  geom_line() +
+  facet_grid(sex ~ .)</source>
+        <target state="needs-translation">Let's modify the previous plot to compare how the mean gene expression
+of males and females has changed through time:
+
+```{r mean-exp-time-facet-sex-rows, purl=TRUE}
+# One column, facet by rows
+ggplot(data = mean_exp_by_time_sex,
+       mapping = aes(x = time, y = mean_exp, color = gene)) +
+  geom_line() +
+  facet_grid(sex ~ .)</target>
+      </trans-unit>
+      <trans-unit id="93822">
+        <source>```
+
+```{r mean-exp-time-facet-sex-columns, purl=TRUE}
+# One row, facet by column
+ggplot(data = mean_exp_by_time_sex,
+       mapping = aes(x = time, y = mean_exp, color = gene)) +
+  geom_line() +
+  facet_grid(.</source>
+        <target state="needs-translation">```
+
+```{r mean-exp-time-facet-sex-columns, purl=TRUE}
+# One row, facet by column
+ggplot(data = mean_exp_by_time_sex,
+       mapping = aes(x = time, y = mean_exp, color = gene)) +
+  geom_line() +
+  facet_grid(.</target>
+      </trans-unit>
+      <trans-unit id="93824">
+        <source>~ sex)
+```
+
+## `ggplot2` themes
+
+In addition to `theme_bw()`, which changes the plot background to white,
+`ggplot2` comes with several other themes which can be useful to quickly
+change the look of your visualization.</source>
+        <target state="needs-translation">~ sex)
+```
+
+## `ggplot2` themes
+
+In addition to `theme_bw()`, which changes the plot background to white,
+`ggplot2` comes with several other themes which can be useful to quickly
+change the look of your visualization.</target>
+      </trans-unit>
+      <trans-unit id="93826">
+        <source>The complete list of themes is
+available at [https://ggplot2.tidyverse.org/reference/ggtheme.html](https://ggplot2.tidyverse.org/reference/ggtheme.html).</source>
+        <target state="needs-translation">The complete list of themes is
+available at [https://ggplot2.tidyverse.org/reference/ggtheme.html](https://ggplot2.tidyverse.org/reference/ggtheme.html).</target>
+      </trans-unit>
+      <trans-unit id="93828">
+        <source>`theme_minimal()` and `theme_light()` are popular, and `theme_void()`
+can be useful as a starting point to create a new hand-crafted theme.</source>
+        <target state="needs-translation">`theme_minimal()` and `theme_light()` are popular, and `theme_void()`
+can be useful as a starting point to create a new hand-crafted theme.</target>
+      </trans-unit>
+      <trans-unit id="93830">
+        <source>The [ggthemes](https://jrnold.github.io/ggthemes/reference/index.html)
+package provides a wide variety of options (including an Excel 2003
+theme).</source>
+        <target state="needs-translation">The [ggthemes](https://jrnold.github.io/ggthemes/reference/index.html)
+package provides a wide variety of options (including an Excel 2003
+theme).</target>
+      </trans-unit>
+      <trans-unit id="93832">
+        <source>The [`ggplot2` extensions
+website](https://exts.ggplot2.tidyverse.org/) provides a list of
+packages that extend the capabilities of `ggplot2`, including additional
+themes.</source>
+        <target state="needs-translation">The [`ggplot2` extensions
+website](https://exts.ggplot2.tidyverse.org/) provides a list of
+packages that extend the capabilities of `ggplot2`, including additional
+themes.</target>
+      </trans-unit>
+      <trans-unit id="93834">
+        <source>## Customisation
+
+Let's come back to the faceted plot of mean expression by time and gene,
+colored by sex.</source>
+        <target state="needs-translation">## Customisation
+
+Let's come back to the faceted plot of mean expression by time and gene,
+colored by sex.</target>
+      </trans-unit>
+      <trans-unit id="93836">
+        <source>Take a look at the [`ggplot2` cheat
+sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-visualization.pdf),
+and think of ways you could improve the plot.</source>
+        <target state="needs-translation">Take a look at the [`ggplot2` cheat
+sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-visualization.pdf),
+and think of ways you could improve the plot.</target>
+      </trans-unit>
+      <trans-unit id="93838">
+        <source>Now, we can change names of axes to something more informative than
+'time' and 'mean\_exp', and add a title to the figure:
+
+```{r mean_exp-time-with-right-labels, cache=FALSE, purl=TRUE}
+ggplot(data = mean_exp_by_time_sex,
+       mapping = aes(x = time, y = mean_exp, color = sex)) +
+  geom_line() +
+  facet_wrap(~ gene, scales = &quot;free_y&quot;) +
+  theme_bw() +
+  theme(panel.grid = element_blank()) +
+  labs(title = &quot;Mean gene expression by duration of the infection&quot;,
+       x = &quot;Duration of the infection (in days)&quot;,
+       y = &quot;Mean gene expression&quot;)
+```
+
+The axes have more informative names, but their readability can be
+improved by increasing the font size:
+
+```{r mean_exp-time-with-right-labels-xfont-size, cache=FALSE, purl=TRUE}
+ggplot(data = mean_exp_by_time_sex,
+       mapping = aes(x = time, y = mean_exp, color = sex)) +
+  geom_line() +
+  facet_wrap(~ gene, scales = &quot;free_y&quot;) +
+  theme_bw() +
+  theme(panel.grid = element_blank()) +
+  labs(title = &quot;Mean gene expression by duration of the infection&quot;,
+       x = &quot;Duration of the infection (in days)&quot;,
+       y = &quot;Mean gene expression&quot;)  +
+  theme(text = element_text(size = 16))
+```
+
+Note that it is also possible to change the fonts of your plots.</source>
+        <target state="needs-translation">Now, we can change names of axes to something more informative than
+'time' and 'mean\_exp', and add a title to the figure:
+
+```{r mean_exp-time-with-right-labels, cache=FALSE, purl=TRUE}
+ggplot(data = mean_exp_by_time_sex,
+       mapping = aes(x = time, y = mean_exp, color = sex)) +
+  geom_line() +
+  facet_wrap(~ gene, scales = &quot;free_y&quot;) +
+  theme_bw() +
+  theme(panel.grid = element_blank()) +
+  labs(title = &quot;Mean gene expression by duration of the infection&quot;,
+       x = &quot;Duration of the infection (in days)&quot;,
+       y = &quot;Mean gene expression&quot;)
+```
+
+The axes have more informative names, but their readability can be
+improved by increasing the font size:
+
+```{r mean_exp-time-with-right-labels-xfont-size, cache=FALSE, purl=TRUE}
+ggplot(data = mean_exp_by_time_sex,
+       mapping = aes(x = time, y = mean_exp, color = sex)) +
+  geom_line() +
+  facet_wrap(~ gene, scales = &quot;free_y&quot;) +
+  theme_bw() +
+  theme(panel.grid = element_blank()) +
+  labs(title = &quot;Mean gene expression by duration of the infection&quot;,
+       x = &quot;Duration of the infection (in days)&quot;,
+       y = &quot;Mean gene expression&quot;)  +
+  theme(text = element_text(size = 16))
+```
+
+Note that it is also possible to change the fonts of your plots.</target>
+      </trans-unit>
+      <trans-unit id="93840">
+        <source>If you
+are on Windows, you may have to install the [**`extrafont`**
+package](https://cran.r-project.org/web/packages/extrafont/index.html).</source>
+        <target state="needs-translation">If you
+are on Windows, you may have to install the [**`extrafont`**
+package](https://cran.r-project.org/web/packages/extrafont/index.html).</target>
+      </trans-unit>
+      <trans-unit id="93842">
+        <source>We can further customize the color of x- and y-axis text, the color of
+the grid, etc.</source>
+        <target state="needs-translation">We can further customize the color of x- and y-axis text, the color of
+the grid, etc.</target>
+      </trans-unit>
+      <trans-unit id="93844">
+        <source>We can also for example move the legend to the top by
+setting `legend.position` to `&quot;top&quot;`.</source>
+        <target state="needs-translation">We can also for example move the legend to the top by
+setting `legend.position` to `&quot;top&quot;`.</target>
+      </trans-unit>
+      <trans-unit id="93846">
+        <source>```{r mean_exp-time-with-theme, cache=FALSE, purl=TRUE}
+ggplot(data = mean_exp_by_time_sex,
+       mapping = aes(x = time, y = mean_exp, color = sex)) +
+  geom_line() +
+  facet_wrap(~ gene, scales = &quot;free_y&quot;) +
+  theme_bw() +
+  theme(panel.grid = element_blank()) +
+  labs(title = &quot;Mean gene expression by duration of the infection&quot;,
+       x = &quot;Duration of the infection (in days)&quot;,
+       y = &quot;Mean gene expression&quot;)  +
+  theme(text = element_text(size = 16),
+        axis.text.x = element_text(colour = &quot;royalblue4&quot;, size = 12),
+        axis.text.y = element_text(colour = &quot;royalblue4&quot;, size = 12),
+        panel.grid = element_line(colour=&quot;lightsteelblue1&quot;),
+        legend.position = &quot;top&quot;)
+```
+
+If you like the changes you created better than the default theme, you
+can save them as an object to be able to easily apply them to other
+plots you may create.</source>
+        <target state="needs-translation">```{r mean_exp-time-with-theme, cache=FALSE, purl=TRUE}
+ggplot(data = mean_exp_by_time_sex,
+       mapping = aes(x = time, y = mean_exp, color = sex)) +
+  geom_line() +
+  facet_wrap(~ gene, scales = &quot;free_y&quot;) +
+  theme_bw() +
+  theme(panel.grid = element_blank()) +
+  labs(title = &quot;Mean gene expression by duration of the infection&quot;,
+       x = &quot;Duration of the infection (in days)&quot;,
+       y = &quot;Mean gene expression&quot;)  +
+  theme(text = element_text(size = 16),
+        axis.text.x = element_text(colour = &quot;royalblue4&quot;, size = 12),
+        axis.text.y = element_text(colour = &quot;royalblue4&quot;, size = 12),
+        panel.grid = element_line(colour=&quot;lightsteelblue1&quot;),
+        legend.position = &quot;top&quot;)
+```
+
+If you like the changes you created better than the default theme, you
+can save them as an object to be able to easily apply them to other
+plots you may create.</target>
+      </trans-unit>
+      <trans-unit id="93848">
+        <source>Here is an example with the histogram we have
+previously created.</source>
+        <target state="needs-translation">Here is an example with the histogram we have
+previously created.</target>
+      </trans-unit>
+      <trans-unit id="93850">
+        <source>```{r mean_exp-time-with-right-labels-xfont, cache=FALSE, purl=TRUE}
+blue_theme &lt;- theme(axis.text.x = element_text(colour = &quot;royalblue4&quot;,
+                                               size = 12),
+                    axis.text.y = element_text(colour = &quot;royalblue4&quot;,
+                                               size = 12),
+                    text = element_text(size = 16),
+                    panel.grid = element_line(colour=&quot;lightsteelblue1&quot;))
+
+ggplot(rna, aes(x = expression_log)) +
+  geom_histogram(bins = 20) +
+    blue_theme
+```
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Challenge
+
+With all of this information in hand, please take another five minutes
+to either improve one of the plots generated in this exercise or
+create a beautiful graph of your own.</source>
+        <target state="needs-translation">```{r mean_exp-time-with-right-labels-xfont, cache=FALSE, purl=TRUE}
+blue_theme &lt;- theme(axis.text.x = element_text(colour = &quot;royalblue4&quot;,
+                                               size = 12),
+                    axis.text.y = element_text(colour = &quot;royalblue4&quot;,
+                                               size = 12),
+                    text = element_text(size = 16),
+                    panel.grid = element_line(colour=&quot;lightsteelblue1&quot;))
+
+ggplot(rna, aes(x = expression_log)) +
+  geom_histogram(bins = 20) +
+    blue_theme
+```
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Challenge
+
+With all of this information in hand, please take another five minutes
+to either improve one of the plots generated in this exercise or
+create a beautiful graph of your own.</target>
+      </trans-unit>
+      <trans-unit id="93852">
+        <source>Use the RStudio [`ggplot2` cheat
+sheet](https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf)
+for inspiration.</source>
+        <target state="needs-translation">Use the RStudio [`ggplot2` cheat
+sheet](https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf)
+for inspiration.</target>
+      </trans-unit>
+      <trans-unit id="93854">
+        <source>Here are some ideas:
+
+- See if you can change the thickness of the lines.</source>
+        <target state="needs-translation">Here are some ideas:
+
+- See if you can change the thickness of the lines.</target>
+      </trans-unit>
+      <trans-unit id="28885">
+        <source>- Can you find a way to change the name of the legend?</source>
+        <target state="needs-translation">- Can you find a way to change the name of the legend?</target>
+      </trans-unit>
+      <trans-unit id="93856">
+        <source>What about
+  its labels?</source>
+        <target state="needs-translation">What about
+  its labels?</target>
+      </trans-unit>
+      <trans-unit id="93858">
+        <source>(hint: look for a ggplot function starting with
+  `scale_`)
+- Try using a different color palette or manually specifying the
+  colors for the lines (see
+  [http://www.cookbook-r.com/Graphs/Colors\_(ggplot2)/](https://www.cookbook-r.com/Graphs/Colors_\(ggplot2\)/)).</source>
+        <target state="needs-translation">(hint: look for a ggplot function starting with
+  `scale_`)
+- Try using a different color palette or manually specifying the
+  colors for the lines (see
+  [http://www.cookbook-r.com/Graphs/Colors\_(ggplot2)/](https://www.cookbook-r.com/Graphs/Colors_\(ggplot2\)/)).</target>
+      </trans-unit>
+      <trans-unit id="93860">
+        <source>:::::::::::::::  solution
+
+## Solution
+
+For example, based on this plot:
+
+```{r, purl=TRUE}
+ggplot(data = mean_exp_by_time_sex,
+       mapping = aes(x = time, y = mean_exp, color = sex)) +
+  geom_line() +
+  facet_wrap(~ gene, scales = &quot;free_y&quot;) +
+  theme_bw() +
+  theme(panel.grid = element_blank())
+```
+
+We can customize it the following ways:
+
+```{r, purl=TRUE}
+# change the thickness of the lines
+ggplot(data = mean_exp_by_time_sex,
+       mapping = aes(x = time, y = mean_exp, color = sex)) +
+  geom_line(size=1.5) +
+  facet_wrap(~ gene, scales = &quot;free_y&quot;) +
+  theme_bw() +
+  theme(panel.grid = element_blank())
+
+# change the name of the legend and the labels
+ggplot(data = mean_exp_by_time_sex,
+       mapping = aes(x = time, y = mean_exp, color = sex)) +
+  geom_line() +
+  facet_wrap(~ gene, scales = &quot;free_y&quot;) +
+  theme_bw() +
+  theme(panel.grid = element_blank()) +
+  scale_color_discrete(name = &quot;Gender&quot;, labels = c(&quot;F&quot;, &quot;M&quot;))
+
+# using a different color palette
+ggplot(data = mean_exp_by_time_sex,
+       mapping = aes(x = time, y = mean_exp, color = sex)) +
+  geom_line() +
+  facet_wrap(~ gene, scales = &quot;free_y&quot;) +
+  theme_bw() +
+  theme(panel.grid = element_blank()) +
+  scale_color_brewer(name = &quot;Gender&quot;, labels = c(&quot;F&quot;, &quot;M&quot;), palette = &quot;Dark2&quot;)
+
+# manually specifying the colors
+ggplot(data = mean_exp_by_time_sex,
+       mapping = aes(x = time, y = mean_exp, color = sex)) +
+  geom_line() +
+  facet_wrap(~ gene, scales = &quot;free_y&quot;) +
+  theme_bw() +
+  theme(panel.grid = element_blank()) +
+  scale_color_manual(name = &quot;Gender&quot;,  labels = c(&quot;F&quot;, &quot;M&quot;),
+                     values = c(&quot;royalblue&quot;, &quot;deeppink&quot;))
+
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+## Composing plots
+
+Faceting is a great tool for splitting one plot into multiple subplots,
+but sometimes you may want to produce a single figure that contains
+multiple independent plots, i.e. plots that are based on different
+variables or even different data frames.</source>
+        <target state="needs-translation">:::::::::::::::  solution
+
+## Solution
+
+For example, based on this plot:
+
+```{r, purl=TRUE}
+ggplot(data = mean_exp_by_time_sex,
+       mapping = aes(x = time, y = mean_exp, color = sex)) +
+  geom_line() +
+  facet_wrap(~ gene, scales = &quot;free_y&quot;) +
+  theme_bw() +
+  theme(panel.grid = element_blank())
+```
+
+We can customize it the following ways:
+
+```{r, purl=TRUE}
+# change the thickness of the lines
+ggplot(data = mean_exp_by_time_sex,
+       mapping = aes(x = time, y = mean_exp, color = sex)) +
+  geom_line(size=1.5) +
+  facet_wrap(~ gene, scales = &quot;free_y&quot;) +
+  theme_bw() +
+  theme(panel.grid = element_blank())
+
+# change the name of the legend and the labels
+ggplot(data = mean_exp_by_time_sex,
+       mapping = aes(x = time, y = mean_exp, color = sex)) +
+  geom_line() +
+  facet_wrap(~ gene, scales = &quot;free_y&quot;) +
+  theme_bw() +
+  theme(panel.grid = element_blank()) +
+  scale_color_discrete(name = &quot;Gender&quot;, labels = c(&quot;F&quot;, &quot;M&quot;))
+
+# using a different color palette
+ggplot(data = mean_exp_by_time_sex,
+       mapping = aes(x = time, y = mean_exp, color = sex)) +
+  geom_line() +
+  facet_wrap(~ gene, scales = &quot;free_y&quot;) +
+  theme_bw() +
+  theme(panel.grid = element_blank()) +
+  scale_color_brewer(name = &quot;Gender&quot;, labels = c(&quot;F&quot;, &quot;M&quot;), palette = &quot;Dark2&quot;)
+
+# manually specifying the colors
+ggplot(data = mean_exp_by_time_sex,
+       mapping = aes(x = time, y = mean_exp, color = sex)) +
+  geom_line() +
+  facet_wrap(~ gene, scales = &quot;free_y&quot;) +
+  theme_bw() +
+  theme(panel.grid = element_blank()) +
+  scale_color_manual(name = &quot;Gender&quot;,  labels = c(&quot;F&quot;, &quot;M&quot;),
+                     values = c(&quot;royalblue&quot;, &quot;deeppink&quot;))
+
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+## Composing plots
+
+Faceting is a great tool for splitting one plot into multiple subplots,
+but sometimes you may want to produce a single figure that contains
+multiple independent plots, i.e. plots that are based on different
+variables or even different data frames.</target>
+      </trans-unit>
+      <trans-unit id="93862">
+        <source>Let's start by creating the two plots that we want to arrange next to
+each other:
+
+The first graph counts the number of unique genes per chromosome.</source>
+        <target state="needs-translation">Let's start by creating the two plots that we want to arrange next to
+each other:
+
+The first graph counts the number of unique genes per chromosome.</target>
+      </trans-unit>
+      <trans-unit id="93864">
+        <source>We
+first need to reorder the levels of `chromosome_name` and filter the
+unique genes per chromosome.</source>
+        <target state="needs-translation">We
+first need to reorder the levels of `chromosome_name` and filter the
+unique genes per chromosome.</target>
+      </trans-unit>
+      <trans-unit id="93866">
+        <source>We also change the scale of the y-axis to a
+log10 scale for better readability.</source>
+        <target state="needs-translation">We also change the scale of the y-axis to a
+log10 scale for better readability.</target>
+      </trans-unit>
+      <trans-unit id="93868">
+        <source>```{r sub1, purl=TRUE}
+rna$chromosome_name &lt;- factor(rna$chromosome_name,
+                               levels = c(1:19,&quot;X&quot;,&quot;Y&quot;))
+
+count_gene_chromosome &lt;- rna %&gt;% select(chromosome_name, gene) %&gt;%
+  distinct() %&gt;% ggplot() +
+  geom_bar(aes(x = chromosome_name), fill = &quot;seagreen&quot;,
+           position = &quot;dodge&quot;, stat = &quot;count&quot;) +
+  labs(y = &quot;log10(n genes)&quot;, x = &quot;chromosome&quot;) +
+  scale_y_log10()
+
+count_gene_chromosome
+```
+
+Below, we also remove the legend altogether by setting the
+`legend.position` to `&quot;none&quot;`.</source>
+        <target state="needs-translation">```{r sub1, purl=TRUE}
+rna$chromosome_name &lt;- factor(rna$chromosome_name,
+                               levels = c(1:19,&quot;X&quot;,&quot;Y&quot;))
+
+count_gene_chromosome &lt;- rna %&gt;% select(chromosome_name, gene) %&gt;%
+  distinct() %&gt;% ggplot() +
+  geom_bar(aes(x = chromosome_name), fill = &quot;seagreen&quot;,
+           position = &quot;dodge&quot;, stat = &quot;count&quot;) +
+  labs(y = &quot;log10(n genes)&quot;, x = &quot;chromosome&quot;) +
+  scale_y_log10()
+
+count_gene_chromosome
+```
+
+Below, we also remove the legend altogether by setting the
+`legend.position` to `&quot;none&quot;`.</target>
+      </trans-unit>
+      <trans-unit id="93870">
+        <source>```{r sub2, purl=TRUE}
+exp_boxplot_sex &lt;- ggplot(rna, aes(y=expression_log, x = as.factor(time),
+                 color=sex)) +
+   geom_boxplot(alpha = 0) +
+  labs(y = &quot;Mean gene exp&quot;,
+       x = &quot;time&quot;) + theme(legend.position = &quot;none&quot;)
+
+exp_boxplot_sex
+```
+
+The [**patchwork**](https://github.com/thomasp85/patchwork) package
+provides an elegant approach to combining figures using the `+` to
+arrange figures (typically side by side).</source>
+        <target state="needs-translation">```{r sub2, purl=TRUE}
+exp_boxplot_sex &lt;- ggplot(rna, aes(y=expression_log, x = as.factor(time),
+                 color=sex)) +
+   geom_boxplot(alpha = 0) +
+  labs(y = &quot;Mean gene exp&quot;,
+       x = &quot;time&quot;) + theme(legend.position = &quot;none&quot;)
+
+exp_boxplot_sex
+```
+
+The [**patchwork**](https://github.com/thomasp85/patchwork) package
+provides an elegant approach to combining figures using the `+` to
+arrange figures (typically side by side).</target>
+      </trans-unit>
+      <trans-unit id="93872">
+        <source>More specifically the `|`
+explicitly arranges them side by side and `/` stacks them on top of each
+other.</source>
+        <target state="needs-translation">More specifically the `|`
+explicitly arranges them side by side and `/` stacks them on top of each
+other.</target>
+      </trans-unit>
+      <trans-unit id="93874">
+        <source>```{r install-patchwork, message=FALSE, eval=FALSE, purl=TRUE}
+install.packages(&quot;patchwork&quot;)
+```
+
+```{r patchworkplot1, purl=TRUE}
+library(&quot;patchwork&quot;)
+count_gene_chromosome + exp_boxplot_sex
+## or count_gene_chromosome | exp_boxplot_sex
+```
+
+```{r patchwork2, purl=TRUE}
+count_gene_chromosome / exp_boxplot_sex
+```
+
+We can combine further control the layout of the final composition with
+`plot_layout` to create more complex layouts:
+
+```{r patchwork3, purl=TRUE}
+count_gene_chromosome + exp_boxplot_sex + plot_layout(ncol = 1)
+```
+
+```{r patchwork4, purl=TRUE}
+count_gene_chromosome +
+ (count_gene_chromosome + exp_boxplot_sex) +
+ exp_boxplot_sex +
+ plot_layout(ncol = 1)
+```
+
+The last plot can also be created using the `|` and `/` composers:
+
+```{r patchwork5, purl=TRUE}
+count_gene_chromosome /
+ (count_gene_chromosome | exp_boxplot_sex) /
+ exp_boxplot_sex
+```
+
+Learn more about `patchwork` on its
+[webpage](https://patchwork.data-imaginist.com/) or in this
+[video](https://www.youtube.com/watch?v=0m4yywqNPVY).</source>
+        <target state="needs-translation">```{r install-patchwork, message=FALSE, eval=FALSE, purl=TRUE}
+install.packages(&quot;patchwork&quot;)
+```
+
+```{r patchworkplot1, purl=TRUE}
+library(&quot;patchwork&quot;)
+count_gene_chromosome + exp_boxplot_sex
+## or count_gene_chromosome | exp_boxplot_sex
+```
+
+```{r patchwork2, purl=TRUE}
+count_gene_chromosome / exp_boxplot_sex
+```
+
+We can combine further control the layout of the final composition with
+`plot_layout` to create more complex layouts:
+
+```{r patchwork3, purl=TRUE}
+count_gene_chromosome + exp_boxplot_sex + plot_layout(ncol = 1)
+```
+
+```{r patchwork4, purl=TRUE}
+count_gene_chromosome +
+ (count_gene_chromosome + exp_boxplot_sex) +
+ exp_boxplot_sex +
+ plot_layout(ncol = 1)
+```
+
+The last plot can also be created using the `|` and `/` composers:
+
+```{r patchwork5, purl=TRUE}
+count_gene_chromosome /
+ (count_gene_chromosome | exp_boxplot_sex) /
+ exp_boxplot_sex
+```
+
+Learn more about `patchwork` on its
+[webpage](https://patchwork.data-imaginist.com/) or in this
+[video](https://www.youtube.com/watch?v=0m4yywqNPVY).</target>
+      </trans-unit>
+      <trans-unit id="93876">
+        <source>Another option is the **`gridExtra`** package that allows to combine
+separate ggplots into a single figure using `grid.arrange()`:
+
+```{r install-gridextra, message=FALSE, eval=FALSE, purl=TRUE}
+install.packages(&quot;gridExtra&quot;)
+```
+
+```{r gridarrange-example, message=FALSE, fig.width=10, purl=TRUE}
+library(&quot;gridExtra&quot;)
+grid.arrange(count_gene_chromosome, exp_boxplot_sex, ncol = 2)
+```
+
+In addition to the `ncol` and `nrow` arguments, used to make simple
+arrangements, there are tools for [constructing more complex
+layouts](https://cran.r-project.org/web/packages/gridExtra/vignettes/arrangeGrob.html).</source>
+        <target state="needs-translation">Another option is the **`gridExtra`** package that allows to combine
+separate ggplots into a single figure using `grid.arrange()`:
+
+```{r install-gridextra, message=FALSE, eval=FALSE, purl=TRUE}
+install.packages(&quot;gridExtra&quot;)
+```
+
+```{r gridarrange-example, message=FALSE, fig.width=10, purl=TRUE}
+library(&quot;gridExtra&quot;)
+grid.arrange(count_gene_chromosome, exp_boxplot_sex, ncol = 2)
+```
+
+In addition to the `ncol` and `nrow` arguments, used to make simple
+arrangements, there are tools for [constructing more complex
+layouts](https://cran.r-project.org/web/packages/gridExtra/vignettes/arrangeGrob.html).</target>
+      </trans-unit>
+      <trans-unit id="93878">
+        <source>## Exporting plots
+
+After creating your plot, you can save it to a file in your favorite
+format.</source>
+        <target state="needs-translation">## Exporting plots
+
+After creating your plot, you can save it to a file in your favorite
+format.</target>
+      </trans-unit>
+      <trans-unit id="93880">
+        <source>The Export tab in the **Plot** pane in RStudio will save your
+plots at low resolution, which will not be accepted by many journals and
+will not scale well for posters.</source>
+        <target state="needs-translation">The Export tab in the **Plot** pane in RStudio will save your
+plots at low resolution, which will not be accepted by many journals and
+will not scale well for posters.</target>
+      </trans-unit>
+      <trans-unit id="93882">
+        <source>Instead, use the `ggsave()` function, which allows you easily change the
+dimension and resolution of your plot by adjusting the appropriate
+arguments (`width`, `height` and `dpi`).</source>
+        <target state="needs-translation">Instead, use the `ggsave()` function, which allows you easily change the
+dimension and resolution of your plot by adjusting the appropriate
+arguments (`width`, `height` and `dpi`).</target>
+      </trans-unit>
+      <trans-unit id="29183">
+        <source>Make sure you have the `fig_output/` folder in your working directory.</source>
+        <target state="needs-translation">Make sure you have the `fig_output/` folder in your working directory.</target>
+      </trans-unit>
+      <trans-unit id="93884">
+        <source>```{r ggsave-example, eval=FALSE, purl=TRUE}
+my_plot &lt;- ggplot(data = mean_exp_by_time_sex,
+       mapping = aes(x = time, y = mean_exp, color = sex)) +
+  geom_line() +
+  facet_wrap(~ gene, scales = &quot;free_y&quot;) +
+  labs(title = &quot;Mean gene expression by duration of the infection&quot;,
+         x = &quot;Duration of the infection (in days)&quot;,
+         y = &quot;Mean gene expression&quot;) +
+  guides(color=guide_legend(title=&quot;Gender&quot;)) +
+  theme_bw() +
+  theme(axis.text.x = element_text(colour = &quot;royalblue4&quot;, size = 12),
+        axis.text.y = element_text(colour = &quot;royalblue4&quot;, size = 12),
+        text = element_text(size = 16),
+        panel.grid = element_line(colour=&quot;lightsteelblue1&quot;),
+        legend.position = &quot;top&quot;)
+ggsave(&quot;fig_output/mean_exp_by_time_sex.png&quot;, my_plot, width = 15,
+       height = 10)
+
+# This also works for grid.arrange() plots
+combo_plot &lt;- grid.arrange(count_gene_chromosome, exp_boxplot_sex,
+                           ncol = 2, widths = c(4, 6))
+ggsave(&quot;fig_output/combo_plot_chromosome_sex.png&quot;, combo_plot,
+       width = 10, dpi = 300)
+```
+
+Note: The parameters `width` and `height` also determine the font size
+in the saved plot.</source>
+        <target state="needs-translation">```{r ggsave-example, eval=FALSE, purl=TRUE}
+my_plot &lt;- ggplot(data = mean_exp_by_time_sex,
+       mapping = aes(x = time, y = mean_exp, color = sex)) +
+  geom_line() +
+  facet_wrap(~ gene, scales = &quot;free_y&quot;) +
+  labs(title = &quot;Mean gene expression by duration of the infection&quot;,
+         x = &quot;Duration of the infection (in days)&quot;,
+         y = &quot;Mean gene expression&quot;) +
+  guides(color=guide_legend(title=&quot;Gender&quot;)) +
+  theme_bw() +
+  theme(axis.text.x = element_text(colour = &quot;royalblue4&quot;, size = 12),
+        axis.text.y = element_text(colour = &quot;royalblue4&quot;, size = 12),
+        text = element_text(size = 16),
+        panel.grid = element_line(colour=&quot;lightsteelblue1&quot;),
+        legend.position = &quot;top&quot;)
+ggsave(&quot;fig_output/mean_exp_by_time_sex.png&quot;, my_plot, width = 15,
+       height = 10)
+
+# This also works for grid.arrange() plots
+combo_plot &lt;- grid.arrange(count_gene_chromosome, exp_boxplot_sex,
+                           ncol = 2, widths = c(4, 6))
+ggsave(&quot;fig_output/combo_plot_chromosome_sex.png&quot;, combo_plot,
+       width = 10, dpi = 300)
+```
+
+Note: The parameters `width` and `height` also determine the font size
+in the saved plot.</target>
+      </trans-unit>
+      <trans-unit id="93886">
+        <source>```{r final-challenge, eval=FALSE, purl=TRUE, echo=FALSE}
+### Final plotting challenge:
+##  With all of this information in hand, please take another five
+##  minutes to either improve one of the plots generated in this
+##  exercise or create a beautiful graph of your own.</source>
+        <target state="needs-translation">```{r final-challenge, eval=FALSE, purl=TRUE, echo=FALSE}
+### Final plotting challenge:
+##  With all of this information in hand, please take another five
+##  minutes to either improve one of the plots generated in this
+##  exercise or create a beautiful graph of your own.</target>
+      </trans-unit>
+      <trans-unit id="93888">
+        <source>Use the RStudio
+##  ggplot2 cheat sheet for inspiration:
+##  https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-visualization.pdf
+```
+
+## Other packages for visualisation
+
+`ggplot2` is a very powerful package that fits very nicely in our *tidy
+data* and *tidy tools* pipeline.</source>
+        <target state="needs-translation">Use the RStudio
+##  ggplot2 cheat sheet for inspiration:
+##  https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-visualization.pdf
+```
+
+## Other packages for visualisation
+
+`ggplot2` is a very powerful package that fits very nicely in our *tidy
+data* and *tidy tools* pipeline.</target>
+      </trans-unit>
+      <trans-unit id="93890">
+        <source>There are other visualization packages
+in R that shouldn't be ignored.</source>
+        <target state="needs-translation">There are other visualization packages
+in R that shouldn't be ignored.</target>
+      </trans-unit>
+      <trans-unit id="93892">
+        <source>### Base graphics
+
+The default graphics system that comes with R, often called *base R
+graphics* is simple and fast.</source>
+        <target state="needs-translation">### Base graphics
+
+The default graphics system that comes with R, often called *base R
+graphics* is simple and fast.</target>
+      </trans-unit>
+      <trans-unit id="93894">
+        <source>It is based on the *painter's or canvas
+model*, where different output are directly overlaid on top of each
+other (see figure @ref(fig:paintermodel)).</source>
+        <target state="needs-translation">It is based on the *painter's or canvas
+model*, where different output are directly overlaid on top of each
+other (see figure @ref(fig:paintermodel)).</target>
+      </trans-unit>
+      <trans-unit id="93896">
+        <source>This is a fundamental
+difference with `ggplot2` (and with `lattice`, described below), that
+returns dedicated objects, that are rendered on screen or in a file, and
+that can even be updated.</source>
+        <target state="needs-translation">This is a fundamental
+difference with `ggplot2` (and with `lattice`, described below), that
+returns dedicated objects, that are rendered on screen or in a file, and
+that can even be updated.</target>
+      </trans-unit>
+      <trans-unit id="29283">
+        <source>```{r paintermodel, fig.width=12, fig.height=4, fig.cap=&quot;Successive layers added on top of each other.&quot;}</source>
+        <target state="needs-translation">```{r paintermodel, fig.width=12, fig.height=4, fig.cap=&quot;Successive layers added on top of each other.&quot;}</target>
+      </trans-unit>
+      <trans-unit id="93898">
+        <source>par(mfrow = c(1, 3))
+plot(1:20, main = &quot;First layer, produced with plot(1:20)&quot;)
+
+plot(1:20, main = &quot;A horizontal red line, added with abline(h = 10)&quot;)
+abline(h = 10, col = &quot;red&quot;)
+
+plot(1:20, main = &quot;A rectangle, added with rect(5, 5, 15, 15)&quot;)
+abline(h = 10, col = &quot;red&quot;)
+rect(5, 5, 15, 15, lwd = 3)
+```
+
+Another main difference is that base graphics' plotting function try to
+do *the right* thing based on their input type, i.e. they will adapt
+their behaviour based on the class of their input.</source>
+        <target state="needs-translation">par(mfrow = c(1, 3))
+plot(1:20, main = &quot;First layer, produced with plot(1:20)&quot;)
+
+plot(1:20, main = &quot;A horizontal red line, added with abline(h = 10)&quot;)
+abline(h = 10, col = &quot;red&quot;)
+
+plot(1:20, main = &quot;A rectangle, added with rect(5, 5, 15, 15)&quot;)
+abline(h = 10, col = &quot;red&quot;)
+rect(5, 5, 15, 15, lwd = 3)
+```
+
+Another main difference is that base graphics' plotting function try to
+do *the right* thing based on their input type, i.e. they will adapt
+their behaviour based on the class of their input.</target>
+      </trans-unit>
+      <trans-unit id="93900">
+        <source>This is again very
+different from what we have in `ggplot2`, that only accepts dataframes
+as input, and that requires plots to be constructed bit by bit.</source>
+        <target state="needs-translation">This is again very
+different from what we have in `ggplot2`, that only accepts dataframes
+as input, and that requires plots to be constructed bit by bit.</target>
+      </trans-unit>
+      <trans-unit id="29315">
+        <source>```{r plotmethod, fig.width=8, fig.height=8, fig.cap=&quot;Plotting boxplots (top) and histograms (bottom) vectors (left) or a matrices (right).&quot;}</source>
+        <target state="needs-translation">```{r plotmethod, fig.width=8, fig.height=8, fig.cap=&quot;Plotting boxplots (top) and histograms (bottom) vectors (left) or a matrices (right).&quot;}</target>
+      </trans-unit>
+      <trans-unit id="93902">
+        <source>par(mfrow = c(2, 2))
+boxplot(rnorm(100),
+        main = &quot;Boxplot of rnorm(100)&quot;)
+boxplot(matrix(rnorm(100), ncol = 10),
+        main = &quot;Boxplot of matrix(rnorm(100), ncol = 10)&quot;)
+hist(rnorm(100))
+hist(matrix(rnorm(100), ncol = 10))
+```
+
+The out-of-the-box approach in base graphics can be very efficient for
+simple, standard figures, that can be produced very quickly with a
+single line of code and a single function such as `plot`, or `hist`, or
+`boxplot`, ...</source>
+        <target state="needs-translation">par(mfrow = c(2, 2))
+boxplot(rnorm(100),
+        main = &quot;Boxplot of rnorm(100)&quot;)
+boxplot(matrix(rnorm(100), ncol = 10),
+        main = &quot;Boxplot of matrix(rnorm(100), ncol = 10)&quot;)
+hist(rnorm(100))
+hist(matrix(rnorm(100), ncol = 10))
+```
+
+The out-of-the-box approach in base graphics can be very efficient for
+simple, standard figures, that can be produced very quickly with a
+single line of code and a single function such as `plot`, or `hist`, or
+`boxplot`, ...</target>
+      </trans-unit>
+      <trans-unit id="93904">
+        <source>The defaults are however not always the most appealing
+and tuning of figures, especially when they become more complex (for
+example to produce facets), can become lengthy and cumbersome.</source>
+        <target state="needs-translation">The defaults are however not always the most appealing
+and tuning of figures, especially when they become more complex (for
+example to produce facets), can become lengthy and cumbersome.</target>
+      </trans-unit>
+      <trans-unit id="93906">
+        <source>### The lattice package
+
+The **`lattice`** package is similar to `ggplot2` in that is uses
+dataframes as input, returns graphical objects and supports faceting.</source>
+        <target state="needs-translation">### The lattice package
+
+The **`lattice`** package is similar to `ggplot2` in that is uses
+dataframes as input, returns graphical objects and supports faceting.</target>
+      </trans-unit>
+      <trans-unit id="93908">
+        <source>`lattice` however isn't based on the grammar of graphics and has a more
+convoluted interface.</source>
+        <target state="needs-translation">`lattice` however isn't based on the grammar of graphics and has a more
+convoluted interface.</target>
+      </trans-unit>
+      <trans-unit id="29357">
+        <source>A good reference for the `lattice` package is @latticebook.</source>
+        <target state="needs-translation">A good reference for the `lattice` package is @latticebook.</target>
+      </trans-unit>
+      <trans-unit id="93910">
+        <source>:::::::::::::::::::::::::::::::::::::::: keypoints
+
+- Visualization in R
+
+::::::::::::::::::::::::::::::::::::::::::::::::::</source>
+        <target state="needs-translation">:::::::::::::::::::::::::::::::::::::::: keypoints
+
+- Visualization in R
+
+::::::::::::::::::::::::::::::::::::::::::::::::::</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
